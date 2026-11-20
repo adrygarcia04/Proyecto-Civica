@@ -1,0 +1,6 @@
+models:
+  - name: stg_own_traffic
+    description: Staging de own_traffic. Casteos y renombres.
+
+  - name: stg_competitors_traffic
+    description: Staging de competitors_traffic. Casteos y renombres.

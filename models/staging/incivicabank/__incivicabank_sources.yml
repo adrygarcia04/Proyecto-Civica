@@ -1,0 +1,78 @@
+sources:
+  - name: incivicabank
+    description: Datos operativos de Incivica Bank.
+    database: "{{ env_var('DBT_01_BRONZE') }}"
+    schema: incivicabank
+
+    tables:
+      - name: campaign
+        description: Información sobre las campañas de marketing en redes sociales.
+        columns:
+          - name: producto
+            description: Producto asociado a la campaña.
+            tests:
+              - not_null
+          - name: campagna
+            description: Descripción de la campaña.
+            tests:
+              - not_null
+          - name: inicio
+            description: Fecha de inicio en formato VARCHAR (DD/MM/YYYY).
+          - name: fin
+            description: Fecha de fin en formato VARCHAR (DD/MM/YYYY).
+          - name: presupuesto
+            description: Presupuesto de la campaña en formato VARCHAR (incluye símbolo €).
+          - name: responsable
+            description: Persona responsable de la campaña.
+            tests:
+                - not_null
+          - name: redes_sociales
+            description: Redes sociales en las que se publica la campaña (puede contener varias separadas por comas).
+          - name: contenido
+            description: Creatividades de la campaña (puede contener varias separadas por comas).
+            tests:
+                - not_null
+
+      - name: post
+        description: Publicaciones de cada creatividad realizadas en redes sociales.
+        columns:
+          - name: fecha_de_publicacion
+            description: Fecha de publicación en formato VARCHAR (DD/MM/YYYY).
+            tests:
+              - not_null
+          - name: contenido
+            description: Creatividad del post.
+            tests:
+                - not_null
+          - name: urls
+            description: URLs asociadas al post (una por red social, puede contener varias separadas por comas).
+            tests:
+                - not_null
+          - name: tipo
+            description: Tipo de publicación.
+          - name: coste_produccion
+            description: Coste de producción de la creatividad en formato VARCHAR (incluye símbolo €).
+
+      - name: people
+        description: Datos de empleados de Incivica Bank.
+        columns:
+          - name: nombre
+            description: Nombre completo.
+            tests:
+              - not_null
+          - name: dni
+            description: Documento Nacional de Identidad.
+            tests:
+              - not_null
+          - name: fecha_de_nacimiento
+            description: Fecha de nacimiento en formato VARCHAR (DD/MM/YYYY).
+          - name: correo
+            description: Correo electrónico profesional.
+          - name: area
+            description: Área o departamento.
+          - name: puesto
+            description: Puesto de trabajo.
+          - name: sueldo_anual_bruto
+            description: Sueldo anual bruto en formato VARCHAR (incluye símbolo €).
+          - name: iban
+            description: Número de cuenta bancaria (IBAN).

@@ -1,0 +1,20 @@
+models:
+  - name: stg_own_interactions
+    description: Staging de own_interactions. Casteos, renombres y fecha del informe a partir del nombre del archivo.
+    columns:
+      - name: report_date
+        description: Fecha del informe en el que se miden las interacciones.
+
+  - name: stg_own_followers
+    description: Staging de own_followers. Casteos, renombres y red social a partir del nombre del archivo.
+    columns:
+      - name: social_network
+        description: Red social sobre la que se miden los seguidores.
+        data_tests: [not_null]
+
+  - name: stg_competitors
+    description: Staging de competitors. Casteos, renombres y red social a partir del nombre del archivo.
+    columns:
+      - name: social_network
+        description: Red social sobre la que se miden las métricas.
+        data_tests: [not_null]

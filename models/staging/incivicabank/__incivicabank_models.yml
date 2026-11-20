@@ -1,0 +1,9 @@
+models:
+  - name: stg_incivicabank_campaing
+    description: Staging de campaing. Casteos, renombres y creatividades despivotadas.
+
+  - name: stg_incivicabank_post
+    description: Staging de posts. Casteos, renombres y URLs despivotadas.
+
+  - name: stg_incivicabank_people
+    description: Staging de people. Casteos y renombres.

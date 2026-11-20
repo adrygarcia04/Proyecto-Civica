@@ -1,0 +1,59 @@
+sources:
+  - name: webanalytics
+    description: Herramienta de analítica web.
+    database: "{{ env_var('DBT_01_BRONZE') }}"
+    schema: webanalytics
+
+    tables:
+      - name: own_traffic
+        description: Tráfico en la web de Incivica Bank por sesión.
+        columns:
+          - name: id
+            description: Identificador único de la sesión.
+            tests:
+              - not_null
+              - unique
+          - name: web_page
+            description: Página web accedida.
+            tests:
+              - not_null
+          - name: accessed_at
+            description: Fecha y hora de acceso a la página (UTC).
+            tests:
+              - not_null
+          - name: traffic_type
+            description: Tipo de tráfico (Orgánico, Paid, Referido, Social, GEN IA, Email).
+            tests:
+              - not_null
+          - name: source
+            description: Fuente del tráfico.
+            tests:
+              - not_null
+          - name: device
+            description: Dispositivo utilizado (Móvil, ordenador o tablet).
+            tests:
+              - not_null
+          - name: duration
+            description: Duración de la sesión en segundos.
+          - name: clicks
+            description: Número de clics en la sesión.
+          - name: converted
+            description: Indica si la sesión terminó en conversión (con la compra/contratación del producto).
+
+      - name: competitors_traffic
+        description: Tráfico diario en los dominios web de competidores por tipo de tráfico.
+        columns:
+          - name: domain
+            description: Dominio del competidor.
+            tests:
+              - not_null
+          - name: record_day
+            description: Día del registro en formato VARCHAR (YYYY-MM-DD).
+            tests:
+              - not_null
+          - name: traffic_type
+            description: Tipo de tráfico (Orgánico, Paid, Referido, Social, GEN IA, Email).
+            tests:
+              - not_null
+          - name: sessions
+            description: Número de sesiones para todas las páginas de ese dominio, en ese día y ese tipo de tráfico.
