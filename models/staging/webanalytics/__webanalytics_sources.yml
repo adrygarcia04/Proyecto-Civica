@@ -10,28 +10,28 @@ sources:
         columns:
           - name: id
             description: Identificador único de la sesión.
-            tests:
+            data_tests:
               - not_null
               - unique
           - name: web_page
             description: Página web accedida.
-            tests:
+            data_tests:
               - not_null
           - name: accessed_at
             description: Fecha y hora de acceso a la página (UTC).
-            tests:
+            data_tests:
               - not_null
           - name: traffic_type
             description: Tipo de tráfico (Orgánico, Paid, Referido, Social, GEN IA, Email).
-            tests:
+            data_tests:
               - not_null
           - name: source
             description: Fuente del tráfico.
-            tests:
+            data_tests:
               - not_null
           - name: device
             description: Dispositivo utilizado (Móvil, ordenador o tablet).
-            tests:
+            data_tests:
               - not_null
           - name: duration
             description: Duración de la sesión en segundos.
@@ -45,15 +45,15 @@ sources:
         columns:
           - name: domain
             description: Dominio del competidor.
-            tests:
+            data_tests:
               - not_null
           - name: record_day
             description: Día del registro en formato VARCHAR (YYYY-MM-DD).
-            tests:
+            data_tests:
               - not_null
           - name: traffic_type
             description: Tipo de tráfico (Orgánico, Paid, Referido, Social, GEN IA, Email).
-            tests:
+            data_tests:
               - not_null
           - name: sessions
             description: Número de sesiones para todas las páginas de ese dominio, en ese día y ese tipo de tráfico.

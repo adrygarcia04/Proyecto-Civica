@@ -24,7 +24,7 @@ renamed as (
     from source
 ),
 
-unpivot2 as (
+unpivot as (
     select
         t.product,
         t.description,
@@ -32,9 +32,9 @@ unpivot2 as (
         t.end_date,
         t.budget_euros,
         t.task_owner,
-        t.social_network,
+        t.social_networks,
         trim(s.value::string) as ad_creative
-    from unpivot1 t,
+    from renamed t,
     lateral split_to_table(contenido, ',') s
 )
 

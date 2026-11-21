@@ -10,11 +10,13 @@ models:
     columns:
       - name: social_network
         description: Red social sobre la que se miden los seguidores.
-        data_tests: [not_null]
+        data_tests:
+          - not_null
 
   - name: stg_competitors
     description: Staging de competitors. Casteos, renombres y red social a partir del nombre del archivo.
     columns:
       - name: social_network
         description: Red social sobre la que se miden las métricas.
-        data_tests: [not_null]
+        data_tests:
+          - not_null

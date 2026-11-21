@@ -5,7 +5,7 @@
                 {{ column_name }},
                 'ñ', 'gn'
             ),
-            'Ñ', 'Gn'
+            'Ñ', 'GN'
         ),
         'áàäâÁÀÄÂéèëêÉÈËÊíìïîÍÌÏÎóòöôÓÒÖÔúùüûÚÙÜÛç',
         'aaaaAAAAeeeeEEEEiiiiIIIIooooOOOOuuuuUUUUc'

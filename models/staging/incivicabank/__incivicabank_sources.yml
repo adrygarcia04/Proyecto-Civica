@@ -10,11 +10,11 @@ sources:
         columns:
           - name: producto
             description: Producto asociado a la campaña.
-            tests:
+            data_tests:
               - not_null
           - name: campagna
             description: Descripción de la campaña.
-            tests:
+            data_tests:
               - not_null
           - name: inicio
             description: Fecha de inicio en formato VARCHAR (DD/MM/YYYY).
@@ -24,13 +24,13 @@ sources:
             description: Presupuesto de la campaña en formato VARCHAR (incluye símbolo €).
           - name: responsable
             description: Persona responsable de la campaña.
-            tests:
+            data_tests:
                 - not_null
           - name: redes_sociales
             description: Redes sociales en las que se publica la campaña (puede contener varias separadas por comas).
           - name: contenido
             description: Creatividades de la campaña (puede contener varias separadas por comas).
-            tests:
+            data_tests:
                 - not_null
 
       - name: post
@@ -38,15 +38,15 @@ sources:
         columns:
           - name: fecha_de_publicacion
             description: Fecha de publicación en formato VARCHAR (DD/MM/YYYY).
-            tests:
+            data_tests:
               - not_null
           - name: contenido
             description: Creatividad del post.
-            tests:
+            data_tests:
                 - not_null
           - name: urls
             description: URLs asociadas al post (una por red social, puede contener varias separadas por comas).
-            tests:
+            data_tests:
                 - not_null
           - name: tipo
             description: Tipo de publicación.
@@ -58,11 +58,11 @@ sources:
         columns:
           - name: nombre
             description: Nombre completo.
-            tests:
+            data_tests:
               - not_null
           - name: dni
             description: Documento Nacional de Identidad.
-            tests:
+            data_tests:
               - not_null
           - name: fecha_de_nacimiento
             description: Fecha de nacimiento en formato VARCHAR (DD/MM/YYYY).

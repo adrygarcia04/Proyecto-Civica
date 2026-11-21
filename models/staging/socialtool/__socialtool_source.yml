@@ -10,15 +10,15 @@ sources:
         columns:
           - name: post_date
             description: Fecha de publicación en formato VARCHAR (YYYYMMDD).
-            tests:
+            data_tests:
               - not_null
           - name: social_network
             description: Red social (Instagram, TikTok, Facebook o LinkedIn).
-            tests:
+            data_tests:
               - not_null
           - name: url
             description: URL del post.
-            tests:
+            data_tests:
               - not_null
           - name: likes
             description: Número de likes del post el día del informe.
@@ -32,7 +32,7 @@ sources:
             description: Alcance (usuarios únicos que vieron el post) el día del informe.
           - name: _source_file_name
             description: Ruta del CSV de origen.
-            tests:
+            data_tests:
               - not_null
 
       - name: own_followers
@@ -40,25 +40,25 @@ sources:
         columns:
           - name: date
             description: Fecha del dato en formato VARCHAR (YYYYMMDD).
-            tests:
+            data_tests:
               - not_null
           - name: province
             description: Provincia.
-            tests:
+            data_tests:
               - not_null
           - name: age
             description: Rango de edad.
-            tests:
+            data_tests:
               - not_null
           - name: gender
             description: Género.
-            tests:
+            data_tests:
               - not_null
           - name: followers
             description: Número de seguidores para cada combinación de día, provincia, edad y género.
           - name: _source_file_name
             description: Ruta del CSV de origen.
-            tests:
+            data_tests:
               - not_null
 
       - name: competitors
@@ -66,11 +66,11 @@ sources:
         columns:
           - name: account
             description: Nombre de la cuenta del competidor.
-            tests:
+            data_tests:
               - not_null
           - name: date
             description: Fecha de las métricas en formato YYYYMMDD.
-            tests:
+            data_tests:
               - not_null
           - name: followers
             description: Número total de seguidores en la fecha indicada.
@@ -82,5 +82,5 @@ sources:
             description: Veces que se compartió contenido durante el día indicado.
           - name: _source_file_name
             description: Ruta del CSV de origen.
-            tests:
+            data_tests:
               - not_null
