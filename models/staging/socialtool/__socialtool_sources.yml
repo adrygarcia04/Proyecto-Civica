@@ -31,7 +31,7 @@ sources:
           - name: reach
             description: Alcance (usuarios únicos que vieron el post) el día del informe.
           - name: _source_file_name
-            description: Ruta del CSV de origen.
+            description: Nombre del CSV de origen.
             data_tests:
               - not_null
 
@@ -57,7 +57,7 @@ sources:
           - name: followers
             description: Número de seguidores para cada combinación de día, provincia, edad y género.
           - name: _source_file_name
-            description: Ruta del CSV de origen.
+            description: Nombre del CSV de origen.
             data_tests:
               - not_null
 
@@ -81,6 +81,6 @@ sources:
           - name: daily_added_shares
             description: Veces que se compartió contenido durante el día indicado.
           - name: _source_file_name
-            description: Ruta del CSV de origen.
+            description: Nombre del CSV de origen.
             data_tests:
               - not_null

@@ -1,14 +1,6 @@
 with source as (
     select
-        post_date,
-        social_network,
-        url,
-        likes,
-        comments,
-        shares,
-        impressions,
-        reach,
-        _source_file_name
+        *
     from {{ source('socialtool', 'own_interactions') }}
 ),
 
@@ -22,7 +14,7 @@ renamed as (
         shares,
         impressions,
         reach,
-        to_timestamp_ntz(
+        to_date(
             regexp_substr(_source_file_name, '_(\\d{8})_report', 1, 1, 'e', 1),
             'YYYYMMDD'
         ) as report_date

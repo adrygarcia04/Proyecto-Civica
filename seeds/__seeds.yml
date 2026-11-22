@@ -1,0 +1,55 @@
+seeds:
+  - name: social_accounts_web_domains
+    description: Mapeo de los nombre de los bancos con sus cuentas sociales y dominios web.
+    columns:
+      - name: BANCO
+        description: Nombre del banco.
+        data_tests:
+          - unique
+          - not_null
+      - name: NOMBRE_ABREVIADO
+        description: Nombre abreviado del banco.
+        data_tests:
+          - unique
+          - not_null
+      - name: INSTAGRAM
+        description: Nombre de la cuenta de Instagram del banco correspondiente.
+        data_tests:
+          - unique
+      - name: TIKTOK
+        description: Nombre de la cuenta de TikTok del banco correspondiente.
+        data_tests:
+          - unique
+      - name: FACEBOOK
+        description: Nombre de la cuenta de Facebook del banco correspondiente.
+        data_tests:
+          - unique
+      - name: LINKEDIN
+        description: Nombre de la cuenta de LinkedIn del banco correspondiente.
+        data_tests:
+          - unique
+      - name: DOMINIO_WEB
+        description: Nombre del dominio web en España del banco correspondiente.
+        data_tests:
+          - unique
+
+  - name: provincias
+    description: Mapeo de las provincias, sus comunidades autónomas o ciudades y su país.
+    columns:
+      - name: PROVINCIA
+        description: Nombre de la provincia.
+        data_tests:
+          - unique
+          - not_null
+      - name: COMUNIDAD_CIUDAD_AUTONOMA
+        description: Comunidad autónoma de la provincia.
+        data_tests:
+          - not_null
+      - name: PAIS
+        description: Pais de la provincia.
+        data_tests:
+          - not_null
+      - name: COUNTRY
+        description: Nombre del pais en inglés.
+        data_tests:
+          - not_null

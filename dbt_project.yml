@@ -1,3 +1,4 @@
+
 name: Proyecto_Civica
 version: '1.0.0'
 
@@ -29,19 +30,40 @@ models:
       incivicabank:
         +schema: incivicabank
       
-      silver:
-        +materialized: table
-        +database: "{{ env_var('DBT_02_SILVER') }}"
-        +tags: ['silver']
-        intermediate:
-          +materialized: ephemeral
-          +schema: intermediate
-        relational_model:
-          +schema: relational
+    silver:
+      +materialized: table
+      +database: "{{ env_var('DBT_02_SILVER') }}"
+      +tags: ['silver']
+      relational:
+        +schema: relational
+        +tags: ['relational']
+      intermediate:
+        +materialized: ephemeral
+        +schema: intermediate
 
-      gold:
-        +materialized: table
-        +database: "{{ env_var('DBT_03_GOLD') }}"
-        +tags: ['gold']
-        core:
-          +schema: core
+    gold:
+      +materialized: table
+      +database: "{{ env_var('DBT_03_GOLD') }}"
+      +tags: ['gold']
+      core:
+        +schema: core
+
+seeds:
+  Proyecto_Civica:
+    +database: "{{ env_var('DBT_02_SILVER') }}"
+    +schema: seeds
+    social_accounts_web_domains:
+      +column_types:
+        BANCO: varchar
+        NOMBRE_ABREVIADO: varchar
+        INSTAGRAM: varchar
+        TIKTOK: varchar
+        FACEBOOK: varchar
+        LINKEDIN: varchar
+        DOMINIO_WEB: varchar
+    provincias:
+      +column_types:
+        PROVINCIA: varchar
+        COMUNIDAD_CIUDAD_AUTONOMA: varchar
+        PAIS: varchar
+        COUNTRY: varchar

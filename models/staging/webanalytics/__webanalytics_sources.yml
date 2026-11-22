@@ -39,6 +39,8 @@ sources:
             description: Número de clics en la sesión.
           - name: converted
             description: Indica si la sesión terminó en conversión (con la compra/contratación del producto).
+          - name: _loaded_at
+            description: Fecha y hora de la carga del archivo desde el stage (zona horaria local de la sesión).
 
       - name: competitors_traffic
         description: Tráfico diario en los dominios web de competidores por tipo de tráfico.
@@ -57,3 +59,5 @@ sources:
               - not_null
           - name: sessions
             description: Número de sesiones para todas las páginas de ese dominio, en ese día y ese tipo de tráfico.
+          - name: _loaded_at
+            description: Fecha y hora de la carga del archivo desde el stage (zona horaria local de la sesión).

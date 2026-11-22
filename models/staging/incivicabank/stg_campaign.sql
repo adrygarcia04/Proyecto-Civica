@@ -1,13 +1,6 @@
 with source as (
     select
-        producto,
-        campagna,
-        inicio,
-        fin,
-        presupuesto,
-        responsable,
-        redes_sociales,
-        contenido
+        *
     from {{ source('incivicabank', 'campaign') }}
 ),
 
@@ -15,8 +8,8 @@ renamed as (
     select
         producto as product,
         campagna as description,
-        to_timestamp_ntz(inicio, 'DD/MM/YYYY') as begin_date,
-        to_timestamp_ntz(fin, 'DD/MM/YYYY') as end_date,
+        to_date(inicio, 'DD/MM/YYYY') as begin_date,
+        to_date(fin, 'DD/MM/YYYY') as end_date,
         to_number(translate(presupuesto, ',.€', '.')) as budget_euros,
         responsable as task_owner,
         redes_sociales as social_networks,

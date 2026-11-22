@@ -62,17 +62,31 @@ sources:
               - not_null
           - name: dni
             description: Documento Nacional de Identidad.
-            data_tests:
-              - not_null
           - name: fecha_de_nacimiento
             description: Fecha de nacimiento en formato VARCHAR (DD/MM/YYYY).
           - name: correo
             description: Correo electrónico profesional.
+            data_tests:
+              - not_null
           - name: area
             description: Área o departamento.
           - name: puesto
             description: Puesto de trabajo.
-          - name: sueldo_anual_bruto
-            description: Sueldo anual bruto en formato VARCHAR (incluye símbolo €).
-          - name: iban
-            description: Número de cuenta bancaria (IBAN).
+      
+      - name: products
+        description: Datos de los productos bancarios de Incivica Bank.
+        columns:
+          - name: producto
+            description: Nombre del producto.
+            data_tests:
+              - not_null
+          - name: url_producto
+            description: URL de la página web del producto.
+            data_tests:
+              - not_null
+          - name: beneficio_anual_medio_por_cliente
+            description: Promedio del beneficio que genera un cliente con ese producto contrado durante un año (incluye símbolo €).
+          - name: _source_file_name
+            description: Nombre del CSV de origen.
+            data_tests:
+              - not_null

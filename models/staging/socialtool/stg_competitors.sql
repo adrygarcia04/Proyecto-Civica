@@ -1,20 +1,14 @@
 with source as (
     select
-        account,
-        date,
-        followers,
-        daily_added_likes,
-        daily_added_comments,
-        daily_added_shares,
-        _source_file_name
+        *
     from {{ source('socialtool', 'competitors') }}
 ),
 
 renamed as (
     select
         lower(trim(account,'@')) as account_name,
-        to_timestamp_ntz(date, 'YYYYMMDD') as record_date,
-        followers,
+        to_date(date, 'YYYYMMDD') as record_date,
+        followers as followers_count,
         daily_added_likes as likes,
         daily_added_comments as comments,
         daily_added_shares as shares,

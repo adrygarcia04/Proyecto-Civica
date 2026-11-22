@@ -1,18 +1,16 @@
 with source as (
     select
-        domain,
-        record_day,
-        traffic_type,
-        sessions
+        *
     from {{ source('webanalytics', 'competitors_traffic') }}
 ),
 
 renamed as (
     select
         lower({{ remove_accents('domain') }}) as web_domain,
-        to_timestamp_ntz(record_day, 'YYYY-MM-DD') as record_date,
+        to_date(record_day, 'YYYY-MM-DD') as record_date,
         traffic_type,
-        sessions as n_sessions
+        sessions as sessions_count,
+        to_timestamp_ntz(convert_timezone('UTC', _loaded_at)) as loaded_at_utc
     from source
 )
 

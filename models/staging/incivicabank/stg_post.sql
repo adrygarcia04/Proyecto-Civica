@@ -1,17 +1,13 @@
 with source as (
     select
-        fecha_de_publicacion,
-        contenido,
-        urls,
-        tipo,
-        coste_produccion
+        *
     from {{ source('incivicabank', 'post') }}
 ),
 
 renamed as (
     select
-        to_timestamp_ntz(fecha_de_publicacion, 'DD/MM/YYYY') as post_date,
-        contenido as ad_creative,
+        to_date(fecha_de_publicacion, 'DD/MM/YYYY') as post_date,
+        lower({{ remove_accents('contenido')}}) as ad_creative,
         urls,
         tipo as ad_creative_type,
         to_number(translate(coste_produccion, ',.€', '.')) as ad_creative_cost_euros

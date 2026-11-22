@@ -1,7 +1,7 @@
 {% macro remove_accents(column_name) %}
-    TRANSLATE(
-        REPLACE(
-            REPLACE(
+    translate(
+        replace(
+            replace(
                 {{ column_name }},
                 'ñ', 'gn'
             ),
