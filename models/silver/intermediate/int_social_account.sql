@@ -19,8 +19,9 @@ unpivot as(
 
 lower as(
     select
-        * exclude(social_network),
-        lower(social_network) as social_network
+        * exclude(social_network, account_name),
+        lower(social_network) as social_network,
+        lower(trim(account_name,'@')) as account_name
     from unpivot
 )
 

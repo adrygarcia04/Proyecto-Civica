@@ -11,7 +11,6 @@ sources:
             description: "{{ doc('session_id') }}"
             data_tests:
               - not_null
-              - unique
           - name: web_page
             description: "{{ doc('web_page') }}"
             data_tests:

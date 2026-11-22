@@ -14,7 +14,7 @@ modified as(
 sur_key as(
     select
         device,
-        {{ dbt_utils.generate_surrogate_key(['device']) }} as device_id,
+        {{ dbt_utils.generate_surrogate_key(['pre_id']) }} as device_id,
     from modified
 )
 

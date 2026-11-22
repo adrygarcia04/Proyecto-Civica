@@ -28,17 +28,11 @@ source1_modified as(
     from source1_distinct
 ),
 
-source2_distinct as(
-    select
-        distinct *
-    from source2
-),
-
 source2_modified as(
     select * exclude(ad_creative),
     lower({{ remove_accents('ad_creative') }}) as ad_creative,
     year(begin_date) as year
-    from source2_distinct
+    from source2
 ),
 
 enriched as(

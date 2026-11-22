@@ -1,6 +1,15 @@
 models:
   - name: stg_competitors
     description: Métricas diarias por cuenta competidora y red social. La red se obtiene del nombre del fichero.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - account_name
+              - social_network
+              - record_date
+          config:
+            severity: warn
     columns:
       - name: account_name
         description: "{{ doc('account_name') }}"
@@ -21,6 +30,17 @@ models:
   - name: stg_own_followers
     description: Audiencia diaria propia por red social, provincia, tramo de edad y género. La red se obtiene del
       nombre del fichero.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - record_date
+              - age_range
+              - gender
+              - province
+              - social_network
+          config:
+            severity: warn
     columns:
       - name: record_date
         description: "{{ doc('record_date') }}"
@@ -39,6 +59,14 @@ models:
   - name: stg_own_interactions
     description: Métricas de una publicación propia en una fecha de informe. La fecha de publicación y la fecha
       de medición tienen significados distintos.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - report_date
+              - url
+          config:
+            severity: warn
     columns:
       - name: post_date
         description: "{{ doc('post_date') }}"

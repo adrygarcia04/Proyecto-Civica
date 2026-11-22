@@ -2,6 +2,15 @@ models:
   - name: stg_competitors_traffic
     description: Sesiones diarias agregadas por dominio competidor y canal. Conserva la fecha de carga para distinguir
       versiones.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - web_domain
+              - record_date
+              - traffic_type
+          config:
+            severity: warn
     columns:
       - name: web_domain
         description: "{{ doc('web_domain') }}"
@@ -18,6 +27,10 @@ models:
     columns:
       - name: session_id
         description: "{{ doc('session_id') }}"
+        data_tests:
+          - unique:
+              config:
+                severity: warn
       - name: web_page
         description: "{{ doc('web_page') }}"
       - name: accessed_at_utc

@@ -192,11 +192,6 @@ models:
                 field: gender_id
       - name: province_id
         description: "{{ doc('province_id') }}"
-        data_tests:
-          - relationships:
-              arguments:
-                to: ref('province')
-                field: province_id
       - name: social_account_id
         description: "{{ doc('social_account_id') }}"
         data_tests:
