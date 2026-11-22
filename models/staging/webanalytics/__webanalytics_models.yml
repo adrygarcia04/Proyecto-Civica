@@ -1,6 +1,38 @@
 models:
-  - name: stg_own_traffic
-    description: Staging de own_traffic. Casteos y renombres.
-
   - name: stg_competitors_traffic
-    description: Staging de competitors_traffic. Casteos y renombres.
+    description: Sesiones diarias agregadas por dominio competidor y canal. Conserva la fecha de carga para distinguir
+      versiones.
+    columns:
+      - name: web_domain
+        description: "{{ doc('web_domain') }}"
+      - name: record_date
+        description: "{{ doc('record_date') }}"
+      - name: traffic_type
+        description: "{{ doc('traffic_type') }}"
+      - name: sessions_count
+        description: "{{ doc('sessions_count') }}"
+      - name: loaded_at_utc
+        description: "{{ doc('loaded_at_utc') }}"
+  - name: stg_own_traffic
+    description: Sesiones web propias con su página, canal de adquisición y resultado de conversión.
+    columns:
+      - name: session_id
+        description: "{{ doc('session_id') }}"
+      - name: web_page
+        description: "{{ doc('web_page') }}"
+      - name: accessed_at_utc
+        description: "{{ doc('accessed_at_utc') }}"
+      - name: traffic_type
+        description: "{{ doc('traffic_type') }}"
+      - name: source
+        description: "{{ doc('source') }}"
+      - name: device
+        description: "{{ doc('device') }}"
+      - name: duration_sec
+        description: "{{ doc('duration_sec') }}"
+      - name: clicks
+        description: "{{ doc('clicks') }}"
+      - name: converted
+        description: "{{ doc('converted') }}"
+      - name: loaded_at_utc
+        description: "{{ doc('loaded_at_utc') }}"

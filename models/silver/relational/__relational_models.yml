@@ -1,0 +1,457 @@
+models:
+  - name: ad_creative
+    description: Un registro por pieza creativa de contenido identificada en el modelo, con su formato, coste de producción y campaña asociada.
+    columns:
+      - name: ad_creative_id
+        description: "{{ doc('ad_creative_id') }}"
+        data_tests:
+          - not_null
+          - unique
+      - name: ad_creative
+        description: "{{ doc('ad_creative') }}"
+      - name: ad_creative_type_id
+        description: "{{ doc('ad_creative_type_id') }}"
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('ad_creative_type')
+                field: ad_creative_type_id
+      - name: ad_creative_cost_euros
+        description: "{{ doc('ad_creative_cost_euros') }}"
+      - name: campaign_id
+        description: "{{ doc('campaign_id') }}"
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('campaign')
+                field: campaign_id
+  - name: ad_creative_type
+    description: Un registro por formato de pieza creativa de contenido observada en las publicaciones.
+    columns:
+      - name: ad_creative_type_id
+        description: "{{ doc('ad_creative_type_id') }}"
+        data_tests:
+          - not_null
+          - unique
+      - name: ad_creative_type
+        description: "{{ doc('ad_creative_type') }}"
+  - name: age_range
+    description: Un registro por rango de edad observado en la audiencia propia.
+    columns:
+      - name: age_range_id
+        description: "{{ doc('age_range_id') }}"
+        data_tests:
+          - not_null
+          - unique
+      - name: age_range
+        description: "{{ doc('age_range') }}"
+  - name: bank
+    description: Un registro por banco incluido en el catálogo de cuentas sociales y dominios web.
+    columns:
+      - name: bank_id
+        description: "{{ doc('bank_id') }}"
+        data_tests:
+          - not_null
+          - unique
+      - name: bank_name
+        description: "{{ doc('bank_name') }}"
+      - name: short_name
+        description: "{{ doc('short_name') }}"
+      - name: web_domain
+        description: "{{ doc('web_domain') }}"
+  - name: campaign
+    description: Un registro por campaña, identificada por descripción y fechas. Relaciona producto, presupuesto y responsable.
+    columns:
+      - name: campaign_id
+        description: "{{ doc('campaign_id') }}"
+        data_tests:
+          - not_null
+          - unique
+      - name: description
+        description: "{{ doc('description') }}"
+      - name: product_id
+        description: "{{ doc('product_id') }}"
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('products')
+                field: product_id
+      - name: begin_date
+        description: "{{ doc('begin_date') }}"
+      - name: end_date
+        description: "{{ doc('end_date') }}"
+      - name: budget_euros
+        description: "{{ doc('budget_euros') }}"
+      - name: task_owner_id
+        description: "{{ doc('task_owner_id') }}"
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('task_owner')
+                field: task_owner_id
+  - name: competitors_interactions
+    description: Un registro diario por cuenta competidora y tipo de interacción pública.
+    columns:
+      - name: competitors_interactions_id
+        description: Identificador de la medición por cuenta competidora, día y tipo de interacción.
+        data_tests:
+          - not_null
+          - unique
+      - name: social_account_id
+        description: "{{ doc('social_account_id') }}"
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('social_account')
+                field: social_account_id
+      - name: record_date
+        description: "{{ doc('record_date') }}"
+        data_tests:
+          - not_null
+      - name: interaction_type_id
+        description: "{{ doc('interaction_type_id') }}"
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('interaction_type')
+                field: interaction_type_id
+      - name: interaction_count
+        description: "{{ doc('interaction_count') }}"
+  - name: competitors_traffic
+    description: Un registro por banco competidor, fecha y canal de tráfico. Se conserva el recuento de la carga más
+      reciente.
+    columns:
+      - name: competitors_traffic_id
+        description: Identificador del recuento de sesiones por banco, fecha y canal.
+        data_tests:
+          - not_null
+          - unique
+      - name: bank_id
+        description: "{{ doc('bank_id') }}"
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('bank')
+                field: bank_id
+      - name: record_date
+        description: "{{ doc('record_date') }}"
+        data_tests:
+          - not_null
+      - name: traffic_type_id
+        description: "{{ doc('traffic_type_id') }}"
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('traffic_type')
+                field: traffic_type_id
+      - name: sessions_count
+        description: "{{ doc('sessions_count') }}"
+  - name: device
+    description: Un registro por tipo de dispositivo observado en el tráfico propio.
+    columns:
+      - name: device_id
+        description: "{{ doc('device_id') }}"
+        data_tests:
+          - not_null
+          - unique
+      - name: device
+        description: "{{ doc('device') }}"
+  - name: followers
+    description: Un registro de los seguidores de cada cuenta social por fecha. El banco propio tiene los datos segmentados demográficamente, mientras que los competidores aportan el total de su cuenta.
+    columns:
+      - name: followers_id
+        description: "{{ doc('followers_id') }}"
+        data_tests:
+          - not_null
+          - unique
+      - name: record_date
+        description: "{{ doc('record_date') }}"
+        data_tests:
+          - not_null
+      - name: age_range_id
+        description: "{{ doc('age_range_id') }}"
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('age_range')
+                field: age_range_id
+      - name: gender_id
+        description: "{{ doc('gender_id') }}"
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('gender')
+                field: gender_id
+      - name: province_id
+        description: "{{ doc('province_id') }}"
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('province')
+                field: province_id
+      - name: social_account_id
+        description: "{{ doc('social_account_id') }}"
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('social_account')
+                field: social_account_id
+      - name: followers_count
+        description: "{{ doc('followers_count') }}"
+  - name: gender
+    description: Un registro por género observado.
+    columns:
+      - name: gender_id
+        description: "{{ doc('gender_id') }}"
+        data_tests:
+          - not_null
+          - unique
+      - name: gender
+        description: "{{ doc('gender') }}"
+  - name: interaction_type
+    description: Un registro por tipo de métrica social observado en los informes de publicaciones propias.
+    columns:
+      - name: interaction_type_id
+        description: "{{ doc('interaction_type_id') }}"
+        data_tests:
+          - not_null
+          - unique
+      - name: interaction_type
+        description: "{{ doc('interaction_type') }}"
+  - name: own_interactions
+    description: Un registro por publicación propia, fecha de informe y tipo de métrica.
+    columns:
+      - name: own_interactions_id
+        description: Identificador de la medición por publicación, fecha del informe y tipo de interacción.
+        data_tests:
+          - not_null
+          - unique
+      - name: report_date
+        description: "{{ doc('report_date') }}"
+        data_tests:
+          - not_null
+      - name: post_id
+        description: "{{ doc('post_id') }}"
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('post')
+                field: post_id
+      - name: interaction_type_id
+        description: "{{ doc('interaction_type_id') }}"
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('interaction_type')
+                field: interaction_type_id
+      - name: interaction_count
+        description: "{{ doc('interaction_count') }}"
+  - name: own_traffic
+    description: Un registro por sesión propia. Si una sesión aparece en varias cargas se conserva el registro de carga más reciente.
+    columns:
+      - name: session_id
+        description: "{{ doc('session_id') }}"
+        data_tests:
+          - not_null
+          - unique
+      - name: web_page_id
+        description: "{{ doc('web_page_id') }}"
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('web_page')
+                field: web_page_id
+      - name: accessed_at_utc
+        description: "{{ doc('accessed_at_utc') }}"
+      - name: traffic_type_id
+        description: "{{ doc('traffic_type_id') }}"
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('traffic_type')
+                field: traffic_type_id
+      - name: device_id
+        description: "{{ doc('device_id') }}"
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('device')
+                field: device_id
+      - name: duration_sec
+        description: "{{ doc('duration_sec') }}"
+      - name: clicks
+        description: "{{ doc('clicks') }}"
+      - name: converted
+        description: "{{ doc('converted') }}"
+  - name: post
+    description: Un registro por URL de publicación, vinculada a la creatividad y a la cuenta en la que se publicó.
+    columns:
+      - name: post_id
+        description: "{{ doc('post_id') }}"
+        data_tests:
+          - not_null
+          - unique
+      - name: url
+        description: "{{ doc('post_url') }}"
+      - name: post_date
+        description: "{{ doc('post_date') }}"
+      - name: ad_creative_id
+        description: "{{ doc('ad_creative_id') }}"
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('ad_creative')
+                field: ad_creative_id
+      - name: social_account_id
+        description: "{{ doc('social_account_id') }}"
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('social_account')
+                field: social_account_id
+  - name: products
+    description: Un registro por producto y año, con su página de destino y su beneficio anual medio por cliente.
+    columns:
+      - name: product_id
+        description: "{{ doc('product_id') }}"
+        data_tests:
+          - not_null
+          - unique
+      - name: product_name
+        description: "{{ doc('product_name') }}"
+      - name: web_page_id
+        description: "{{ doc('web_page_id') }}"
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('web_page')
+                field: web_page_id
+      - name: client_annual_avg_profit
+        description: "{{ doc('client_annual_avg_profit') }}"
+      - name: year
+        description: "{{ doc('year') }}"
+        data_tests:
+          - not_null
+  - name: province
+    description: Un registro por provincia del catálogo territorial con su comunidad o ciudad autónoma y país.
+    columns:
+      - name: province_id
+        description: "{{ doc('province_id') }}"
+        data_tests:
+          - not_null
+          - unique
+      - name: province
+        description: "{{ doc('province_label') }}"
+      - name: region
+        description: "{{ doc('region') }}"
+      - name: country_name_es
+        description: "{{ doc('country_name_es') }}"
+      - name: country_name_en
+        description: "{{ doc('country_name_en') }}"
+  - name: social_account
+    description: Un registro por combinación de nombre de cuenta y red social, vinculada a su banco.
+    columns:
+      - name: social_account_id
+        description: "{{ doc('social_account_id') }}"
+        data_tests:
+          - not_null
+          - unique
+      - name: account_name
+        description: "{{ doc('account_name') }}"
+      - name: bank_id
+        description: "{{ doc('bank_id') }}"
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('bank')
+                field: bank_id
+      - name: social_network_id
+        description: "{{ doc('social_network_id') }}"
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('social_network')
+                field: social_network_id
+  - name: social_network
+    description: Un registro por red social representada en el catálogo de cuentas.
+    columns:
+      - name: social_network_id
+        description: "{{ doc('social_network_id') }}"
+        data_tests:
+          - not_null
+          - unique
+      - name: social_network
+        description: "{{ doc('social_network') }}"
+  - name: task_owner
+    description: Un registro por persona y año.
+    columns:
+      - name: task_owner_id
+        description: "{{ doc('task_owner_id') }}"
+        data_tests:
+          - not_null
+          - unique
+      - name: full_name
+        description: "{{ doc('full_name') }}"
+      - name: dni
+        description: "{{ doc('dni') }}"
+      - name: birthdate
+        description: "{{ doc('birthdate') }}"
+      - name: mail
+        description: "{{ doc('mail') }}"
+      - name: department
+        description: "{{ doc('department') }}"
+      - name: job_title
+        description: "{{ doc('job_title') }}"
+      - name: year
+        description: "{{ doc('year') }}"
+        data_tests:
+          - not_null
+  - name: traffic_type
+    description: Un registro por combinación de canal y origen. Para competidores solo se conoce el canal.
+    columns:
+      - name: traffic_type_id
+        description: "{{ doc('traffic_type_id') }}"
+        data_tests:
+          - not_null
+          - unique
+      - name: traffic_type
+        description: "{{ doc('traffic_type') }}"
+      - name: source
+        description: "{{ doc('source') }}"
+  - name: web_page
+    description: Un registro por URL observada en las sesiones propias. El dominio permite asociarla al banco.
+    columns:
+      - name: web_page_id
+        description: "{{ doc('web_page_id') }}"
+        data_tests:
+          - not_null
+          - unique
+      - name: web_page
+        description: "{{ doc('web_page') }}"
+      - name: bank_id
+        description: "{{ doc('bank_id') }}"
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('bank')
+                field: bank_id

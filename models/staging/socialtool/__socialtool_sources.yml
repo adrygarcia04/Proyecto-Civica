@@ -1,71 +1,70 @@
 sources:
   - name: socialtool
     description: Herramienta de analítica de redes sociales.
-    database: "{{ env_var('DBT_01_BRONZE') }}"
+    database: '{{ env_var(''DBT_01_BRONZE'') }}'
     schema: socialtool
-
     tables:
       - name: own_interactions
-        description: Evolución diaria de las interacciones de los posts de Incivica Bank en las distintas redes sociales.
+        description: Evolución diaria de las interacciones de los posts de Incivica Bank en las distintas redes
+          sociales.
         columns:
           - name: post_date
             description: Fecha de publicación en formato VARCHAR (YYYYMMDD).
             data_tests:
               - not_null
           - name: social_network
-            description: Red social (Instagram, TikTok, Facebook o LinkedIn).
+            description: "{{ doc('social_network') }}"
             data_tests:
               - not_null
           - name: url
-            description: URL del post.
+            description: "{{ doc('post_url') }}"
             data_tests:
               - not_null
           - name: likes
-            description: Número de likes del post el día del informe.
+            description: "{{ doc('likes') }}"
           - name: comments
-            description: Número de comentarios del post el día del informe.
+            description: "{{ doc('comments') }}"
           - name: shares
-            description: Número de veces compartido el día del informe.
+            description: "{{ doc('shares') }}"
           - name: impressions
-            description: Número de impresiones el día del informe.
+            description: "{{ doc('impressions') }}"
           - name: reach
-            description: Alcance (usuarios únicos que vieron el post) el día del informe.
+            description: "{{ doc('reach') }}"
           - name: _source_file_name
-            description: Nombre del CSV de origen.
+            description: "{{ doc('source_file_name') }}"
             data_tests:
               - not_null
-
       - name: own_followers
-        description: Evolución diaria de seguidores de las cuentas de Incivica Bank en las distintas redes sociales segmentados por provincia, edad y género.
+        description: Evolución diaria de seguidores de las cuentas de Incivica Bank en las distintas redes sociales
+          segmentados por provincia, edad y género.
         columns:
           - name: date
             description: Fecha del dato en formato VARCHAR (YYYYMMDD).
             data_tests:
               - not_null
           - name: province
-            description: Provincia.
+            description: "{{ doc('province') }}"
             data_tests:
               - not_null
           - name: age
-            description: Rango de edad.
+            description: "{{ doc('age_range') }}"
             data_tests:
               - not_null
           - name: gender
-            description: Género.
+            description: "{{ doc('gender') }}"
             data_tests:
               - not_null
           - name: followers
-            description: Número de seguidores para cada combinación de día, provincia, edad y género.
+            description: "{{ doc('followers_count') }}"
           - name: _source_file_name
-            description: Nombre del CSV de origen.
+            description: "{{ doc('source_file_name') }}"
             data_tests:
               - not_null
-
       - name: competitors
         description: Evolución diaria de las métricas públicas de las redes sociales de los competidores.
         columns:
           - name: account
-            description: Nombre de la cuenta del competidor.
+            description: "{{ doc('account_name') }}"
             data_tests:
               - not_null
           - name: date
@@ -73,14 +72,14 @@ sources:
             data_tests:
               - not_null
           - name: followers
-            description: Número total de seguidores en la fecha indicada.
+            description: Número total de seguidores de la cuenta en la fecha indicada.
           - name: daily_added_likes
-            description: Likes añadidos durante el día indicado.
+            description: "{{ doc('likes') }}"
           - name: daily_added_comments
-            description: Comentarios añadidos durante el día indicado.
+            description: "{{ doc('comments') }}"
           - name: daily_added_shares
-            description: Veces que se compartió contenido durante el día indicado.
+            description: "{{ doc('shares') }}"
           - name: _source_file_name
-            description: Nombre del CSV de origen.
+            description: "{{ doc('source_file_name') }}"
             data_tests:
               - not_null

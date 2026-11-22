@@ -1,19 +1,18 @@
 sources:
   - name: incivicabank
     description: Datos operativos de Incivica Bank.
-    database: "{{ env_var('DBT_01_BRONZE') }}"
+    database: '{{ env_var(''DBT_01_BRONZE'') }}'
     schema: incivicabank
-
     tables:
       - name: campaign
         description: Información sobre las campañas de marketing en redes sociales.
         columns:
           - name: producto
-            description: Producto asociado a la campaña.
+            description: "{{ doc('product_name') }}"
             data_tests:
               - not_null
           - name: campagna
-            description: Descripción de la campaña.
+            description: "{{ doc('description') }}"
             data_tests:
               - not_null
           - name: inicio
@@ -23,16 +22,15 @@ sources:
           - name: presupuesto
             description: Presupuesto de la campaña en formato VARCHAR (incluye símbolo €).
           - name: responsable
-            description: Persona responsable de la campaña.
+            description: "{{ doc('task_owner') }}"
             data_tests:
-                - not_null
+              - not_null
           - name: redes_sociales
-            description: Redes sociales en las que se publica la campaña (puede contener varias separadas por comas).
+            description: "{{ doc('social_networks') }}"
           - name: contenido
             description: Creatividades de la campaña (puede contener varias separadas por comas).
             data_tests:
-                - not_null
-
+              - not_null
       - name: post
         description: Publicaciones de cada creatividad realizadas en redes sociales.
         columns:
@@ -41,52 +39,55 @@ sources:
             data_tests:
               - not_null
           - name: contenido
-            description: Creatividad del post.
+            description: "{{ doc('ad_creative') }}"
             data_tests:
-                - not_null
+              - not_null
           - name: urls
             description: URLs asociadas al post (una por red social, puede contener varias separadas por comas).
             data_tests:
-                - not_null
+              - not_null
           - name: tipo
-            description: Tipo de publicación.
+            description: "{{ doc('ad_creative_type') }}"
           - name: coste_produccion
             description: Coste de producción de la creatividad en formato VARCHAR (incluye símbolo €).
-
       - name: people
         description: Datos de empleados de Incivica Bank.
         columns:
           - name: nombre
-            description: Nombre completo.
+            description: "{{ doc('full_name') }}"
             data_tests:
               - not_null
           - name: dni
-            description: Documento Nacional de Identidad.
+            description: "{{ doc('dni') }}"
           - name: fecha_de_nacimiento
             description: Fecha de nacimiento en formato VARCHAR (DD/MM/YYYY).
           - name: correo
-            description: Correo electrónico profesional.
+            description: "{{ doc('mail') }}"
             data_tests:
               - not_null
           - name: area
-            description: Área o departamento.
+            description: "{{ doc('department') }}"
           - name: puesto
-            description: Puesto de trabajo.
-      
+            description: "{{ doc('job_title') }}"
+          - name: _source_file_name
+            description: "{{ doc('source_file_name') }}"
+            data_tests:
+              - not_null
       - name: products
         description: Datos de los productos bancarios de Incivica Bank.
         columns:
           - name: producto
-            description: Nombre del producto.
+            description: "{{ doc('product_name') }}"
             data_tests:
               - not_null
           - name: url_producto
-            description: URL de la página web del producto.
+            description: "{{ doc('product_url') }}"
             data_tests:
               - not_null
           - name: beneficio_anual_medio_por_cliente
-            description: Promedio del beneficio que genera un cliente con ese producto contrado durante un año (incluye símbolo €).
+            description: Promedio del beneficio que genera un cliente con ese producto contrado durante un año (incluye
+              símbolo €).
           - name: _source_file_name
-            description: Nombre del CSV de origen.
+            description: "{{ doc('source_file_name') }}"
             data_tests:
               - not_null

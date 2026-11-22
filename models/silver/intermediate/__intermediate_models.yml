@@ -1,0 +1,55 @@
+models:
+  - name: int_competitors_followers
+    description: Prepara el total diario de seguidores por cuenta competidora. Las tres claves demográficas quedan nulas porque el origen solo aporta totales.
+    columns:
+      - name: followers_id
+        description: "{{ doc('followers_id') }}"
+      - name: record_date
+        description: "{{ doc('record_date') }}"
+      - name: age_range_id
+        description: "{{ doc('age_range_id') }}"
+      - name: gender_id
+        description: "{{ doc('gender_id') }}"
+      - name: province_id
+        description: "{{ doc('province_id') }}"
+      - name: social_account_id
+        description: "{{ doc('social_account_id') }}"
+      - name: followers_count
+        description: "{{ doc('followers_count') }}"
+  - name: int_own_followers
+    description: Prepara las observaciones de seguidores propios por fecha, cuenta y segmento demográfico.
+    columns:
+      - name: followers_id
+        description: "{{ doc('followers_id') }}"
+      - name: record_date
+        description: "{{ doc('record_date') }}"
+      - name: age_range_id
+        description: "{{ doc('age_range_id') }}"
+      - name: gender_id
+        description: "{{ doc('gender_id') }}"
+      - name: province_id
+        description: "{{ doc('province_id') }}"
+      - name: social_account_id
+        description: "{{ doc('social_account_id') }}"
+      - name: followers_count
+        description: "{{ doc('followers_count') }}"
+  - name: int_own_interactions
+    description: Transforma las columnas de métricas en filas por URL, fecha de informe y tipo de métrica informado.
+    columns:
+      - name: url
+        description: "{{ doc('post_url') }}"
+      - name: report_date
+        description: "{{ doc('report_date') }}"
+      - name: interaction_type
+        description: "{{ doc('interaction_type') }}"
+      - name: interaction_count
+        description: "{{ doc('interaction_count') }}"
+  - name: int_social_account
+    description: Una fila por banco y red con cuenta informada en el catálogo de entidades.
+    columns:
+      - name: bank_name
+        description: "{{ doc('bank_name') }}"
+      - name: social_network
+        description: "{{ doc('social_network') }}"
+      - name: account_name
+        description: "{{ doc('account_name') }}"

@@ -36,7 +36,8 @@ source2_distinct as(
 
 source2_modified as(
     select * exclude(ad_creative),
-    lower({{ remove_accents('ad_creative') }}) as ad_creative
+    lower({{ remove_accents('ad_creative') }}) as ad_creative,
+    year(begin_date) as year
     from source2_distinct
 ),
 

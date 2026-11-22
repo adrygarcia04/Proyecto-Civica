@@ -1,22 +1,69 @@
 models:
-  - name: stg_campaing
-    description: Staging de campaing. Casteos, renombres y creatividades despivotadas.
+  - name: stg_campaign
+    description: Una fila por creatividad declarada en la campaña. El presupuesto corresponde a la campaña completa.
     columns:
+      - name: product
+        description: "{{ doc('product_name') }}"
+      - name: description
+        description: "{{ doc('description') }}"
+      - name: begin_date
+        description: "{{ doc('begin_date') }}"
+      - name: end_date
+        description: "{{ doc('end_date') }}"
+      - name: budget_euros
+        description: "{{ doc('budget_euros') }}"
+      - name: task_owner
+        description: "{{ doc('task_owner') }}"
+      - name: social_networks
+        description: "{{ doc('social_networks') }}"
       - name: ad_creative
-        description: Creatividad.
+        description: "{{ doc('ad_creative') }}"
         data_tests:
           - not_null
-
-  - name: stg_post
-    description: Staging de posts. Casteos, renombres y URLs despivotadas.
-    columns:
-      - name: url
-        description: URL asociada a un post.
-        data_tests:
-          - not_null
-
   - name: stg_people
-    description: Staging de people. Casteos y renombres.
-
+    description: Una fila por registro de empleado en el fichero anual de personal.
+    columns:
+      - name: full_name
+        description: "{{ doc('full_name') }}"
+      - name: dni
+        description: "{{ doc('dni') }}"
+      - name: birthdate
+        description: "{{ doc('birthdate') }}"
+      - name: mail
+        description: "{{ doc('mail') }}"
+      - name: department
+        description: "{{ doc('department') }}"
+      - name: job_title
+        description: "{{ doc('job_title') }}"
+      - name: year
+        description: "{{ doc('year') }}"
+        data_tests:
+          - not_null
+  - name: stg_post
+    description: Una fila por URL extraída de la lista de publicaciones de la creatividad.
+    columns:
+      - name: post_date
+        description: "{{ doc('post_date') }}"
+      - name: ad_creative
+        description: "{{ doc('ad_creative') }}"
+      - name: ad_creative_type
+        description: "{{ doc('ad_creative_type') }}"
+      - name: ad_creative_cost_euros
+        description: "{{ doc('ad_creative_cost_euros') }}"
+      - name: url
+        description: "{{ doc('post_url') }}"
+        data_tests:
+          - not_null
   - name: stg_products
-    description: Staging de products. Casteos y renombres.
+    description: Una fila por registro de producto en el catálogo anual del banco.
+    columns:
+      - name: product_name
+        description: "{{ doc('product_name') }}"
+      - name: url
+        description: "{{ doc('product_url') }}"
+      - name: client_annual_avg_profit
+        description: "{{ doc('client_annual_avg_profit') }}"
+      - name: year
+        description: "{{ doc('year') }}"
+        data_tests:
+          - not_null

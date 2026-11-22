@@ -1,22 +1,62 @@
 models:
-  - name: stg_own_interactions
-    description: Staging de own_interactions. Casteos, renombres y fecha del informe a partir del nombre del archivo.
+  - name: stg_competitors
+    description: Métricas diarias por cuenta competidora y red social. La red se obtiene del nombre del fichero.
     columns:
-      - name: report_date
-        description: Fecha del informe en el que se miden las interacciones.
-
-  - name: stg_own_followers
-    description: Staging de own_followers. Casteos, renombres y red social a partir del nombre del archivo.
-    columns:
+      - name: account_name
+        description: "{{ doc('account_name') }}"
+      - name: record_date
+        description: "{{ doc('record_date') }}"
+      - name: followers_count
+        description: "{{ doc('followers_count') }}"
+      - name: likes
+        description: "{{ doc('likes') }}"
+      - name: comments
+        description: "{{ doc('comments') }}"
+      - name: shares
+        description: "{{ doc('shares') }}"
       - name: social_network
-        description: Red social sobre la que se miden los seguidores.
+        description: "{{ doc('social_network') }}"
         data_tests:
           - not_null
-
-  - name: stg_competitors
-    description: Staging de competitors. Casteos, renombres y red social a partir del nombre del archivo.
+  - name: stg_own_followers
+    description: Audiencia diaria propia por red social, provincia, tramo de edad y género. La red se obtiene del
+      nombre del fichero.
     columns:
+      - name: record_date
+        description: "{{ doc('record_date') }}"
+      - name: province
+        description: "{{ doc('province') }}"
+      - name: age_range
+        description: "{{ doc('age_range') }}"
+      - name: gender
+        description: "{{ doc('gender') }}"
+      - name: followers_count
+        description: "{{ doc('followers_count') }}"
       - name: social_network
-        description: Red social sobre la que se miden las métricas.
+        description: "{{ doc('social_network') }}"
+        data_tests:
+          - not_null
+  - name: stg_own_interactions
+    description: Métricas de una publicación propia en una fecha de informe. La fecha de publicación y la fecha
+      de medición tienen significados distintos.
+    columns:
+      - name: post_date
+        description: "{{ doc('post_date') }}"
+      - name: social_network
+        description: "{{ doc('social_network') }}"
+      - name: url
+        description: "{{ doc('post_url') }}"
+      - name: likes
+        description: "{{ doc('likes') }}"
+      - name: comments
+        description: "{{ doc('comments') }}"
+      - name: shares
+        description: "{{ doc('shares') }}"
+      - name: impressions
+        description: "{{ doc('impressions') }}"
+      - name: reach
+        description: "{{ doc('reach') }}"
+      - name: report_date
+        description: "{{ doc('report_date') }}"
         data_tests:
           - not_null
