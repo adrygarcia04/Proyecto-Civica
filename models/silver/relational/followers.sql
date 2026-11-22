@@ -2,7 +2,7 @@
   config(
     materialized='incremental',
     incremental_strategy='merge',
-    unique_key='followres_id'
+    unique_key='followers_id'
   )
 }}
 

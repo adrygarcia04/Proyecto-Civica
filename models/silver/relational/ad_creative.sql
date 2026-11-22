@@ -52,7 +52,7 @@ enriched as(
 sur_key as(
     select
         {{ dbt_utils.generate_surrogate_key(['description', 'begin_date', 'end_date']) }} as campaign_id,
-        {{ dbt_utils.generate_surrogate_key(['ad_creative', 'campaign_id']) }} as ad_creative_id,
+        {{ dbt_utils.generate_surrogate_key(['ad_creative', 'year']) }} as ad_creative_id,
         ad_creative,
         {{ dbt_utils.generate_surrogate_key(['ad_creative_type']) }} as ad_creative_type_id,
         ad_creative_cost_euros

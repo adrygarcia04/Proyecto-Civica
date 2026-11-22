@@ -19,7 +19,7 @@ source1_modified as(
         year(post_date) as year,
         lower({{ remove_accents('ad_creative') }}) as ad_creative,
         lower({{ remove_accents('url') }}) as url,
-        case regexp_substr(url, '.(instagram,tiktok,facebook,linkedin).', 1, 1, 'e', 1)
+        case regexp_substr(url, '.(instagram|tiktok|facebook|linkedin).', 1, 1, 'e', 1)
             when 'instagram' then 'instagram'
             when 'tiktok' then 'tiktok'
             when 'facebook' then 'facebook'
@@ -44,7 +44,7 @@ sur_key as(
         url,
         post_date,
         {{ dbt_utils.generate_surrogate_key(['ad_creative', 'year']) }} as ad_creative_id,
-        {{ dbt_utils.generate_surrogate_key(['account_name']) }} as social_account_id
+        {{ dbt_utils.generate_surrogate_key(['account_name', 'social_network']) }} as social_account_id
     from enriched
 )
 
