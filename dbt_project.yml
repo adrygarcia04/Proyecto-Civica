@@ -29,6 +29,8 @@ models:
         +schema: webanalytics
       incivicabank:
         +schema: incivicabank
+      +meta:
+        owner: Adry García
       
     silver:
       +materialized: table
@@ -40,6 +42,8 @@ models:
       intermediate:
         +materialized: ephemeral
         +schema: intermediate
+      +meta:
+        owner: Adry García
 
     gold:
       +materialized: table
@@ -54,6 +58,8 @@ models:
       web_traffic:
         +schema: web_traffic
         +tags: ['web_traffic']
+      +meta:
+        owner: Adry García
 
 seeds:
   Proyecto_Civica:
