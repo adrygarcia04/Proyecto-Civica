@@ -47,6 +47,13 @@ models:
       +tags: ['gold']
       core:
         +schema: core
+        +tags: ['core']
+      social_network:
+        +schema: social_network
+        +tags: ['social_network']
+      web_traffic:
+        +schema: web_traffic
+        +tags: ['web_traffic']
 
 seeds:
   Proyecto_Civica:

@@ -10,7 +10,8 @@ with posts as (
     select
         post_id,
         url,
-        ad_creative_id
+        ad_creative_id,
+        social_account_id
     from {{ ref('post') }}
 ),
 
@@ -29,9 +30,9 @@ interactions_daily as (
     select
         post_id,
         activity_date,
-        likes,
-        comments,
-        shares,
+        coalesce(likes, 0) as likes,
+        coalesce(comments, 0) as comments,
+        coalesce(shares, 0) as shares,
         impressions,
         reach
     from interaction_values
@@ -72,11 +73,13 @@ select
     i.post_id,
     p.url,
     i.activity_date,
+    sa.social_network_id,
     c.product_id,
     a.campaign_id,
     i.likes,
     i.comments,
     i.shares,
+    i.likes + i.comments + i.shares as engagements,
     i.impressions,
     i.reach,
     coalesce(t.sessions, 0) as sessions,
@@ -86,10 +89,13 @@ select
         else t.conversions * pr.client_annual_avg_profit
     end as estimated_profit_euros,
     c.task_owner_id,
-    p.ad_creative_id
+    p.ad_creative_id,
+    a.ad_creative_type_id
 from interactions_daily i
 inner join posts p
     on i.post_id = p.post_id
+left join {{ ref('social_account') }} sa
+    on p.social_account_id = sa.social_account_id
 left join {{ ref('ad_creative') }} a
     on p.ad_creative_id = a.ad_creative_id
 left join {{ ref('campaign') }} c
