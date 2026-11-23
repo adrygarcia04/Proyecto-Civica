@@ -67,3 +67,9 @@ seeds:
         COMUNIDAD_CIUDAD_AUTONOMA: varchar
         PAIS: varchar
         COUNTRY: varchar
+
+snapshots:
+  Proyecto_Civica:
+    +database: "{{ env_var('DBT_02_SILVER') }}"
+    +schema: snapshots
+    +transient: false

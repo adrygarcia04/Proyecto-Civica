@@ -12,7 +12,7 @@ renamed as (
         lower({{ remove_accents('correo') }}) as mail,
         area as department,
         puesto as job_title,
-        regexp_substr(_source_file_name, '[0-9]{4}') as year
+        to_date(fecha_del_informe, 'DD/MM/YYYY') as report_date
     from source
 )
 

@@ -69,8 +69,8 @@ sources:
             description: "{{ doc('department') }}"
           - name: puesto
             description: "{{ doc('job_title') }}"
-          - name: _source_file_name
-            description: "{{ doc('source_file_name') }}"
+          - name: fecha_del_informe
+            description: Fecha de generación del informe del departamento de People.
             data_tests:
               - not_null
       - name: products

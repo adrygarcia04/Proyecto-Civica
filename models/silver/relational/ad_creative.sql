@@ -31,7 +31,7 @@ source1_modified as(
 source2_modified as(
     select * exclude(ad_creative),
     lower({{ remove_accents('ad_creative') }}) as ad_creative,
-    year(begin_date) as year
+    year(begin_date) as ad_creative_reference_year
     from source2
 ),
 
@@ -47,8 +47,9 @@ enriched as(
 sur_key as(
     select
         {{ dbt_utils.generate_surrogate_key(['description', 'begin_date', 'end_date']) }} as campaign_id,
-        {{ dbt_utils.generate_surrogate_key(['ad_creative', 'year']) }} as ad_creative_id,
+        {{ dbt_utils.generate_surrogate_key(['ad_creative', 'ad_creative_reference_year']) }} as ad_creative_id,
         ad_creative,
+        ad_creative_reference_year,
         {{ dbt_utils.generate_surrogate_key(['ad_creative_type']) }} as ad_creative_type_id,
         ad_creative_cost_euros
     from enriched

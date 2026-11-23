@@ -39,23 +39,23 @@ Número total de seguidores de la cuenta en la fecha indicada para la combinaci�
 {% enddocs %}
 
 {% docs likes %}
-Número total de "me gusta" medido en la fecha del informe.
+Número total de "me gusta" el día de la fecha del informe.
 {% enddocs %}
 
 {% docs comments %}
-Número total de comentarios medido en la fecha del informe.
+Número total de comentarios el día de la fecha del informe.
 {% enddocs %}
 
 {% docs shares %}
-Número total de veces que se compartió un contenido medido en la fecha del informe.
+Número total de veces que se compartió un contenido medido el día de fecha del informe.
 {% enddocs %}
 
 {% docs impressions %}
-Número total de impresiones que recibió la publicación medido en la fecha del informe.
+Número total de impresiones que recibió la publicación el día de la fecha del informe.
 {% enddocs %}
 
 {% docs reach %}
-Número total de usuarios únicos que vieron la publicación medido en la fecha del informe.
+Número total de usuarios únicos que vieron la publicación el día de la fecha del informe.
 {% enddocs %}
 
 {% docs interaction_type %}

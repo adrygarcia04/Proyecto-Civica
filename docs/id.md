@@ -47,7 +47,7 @@ Identificador único del producto bancario en el año de referencia.
 {% enddocs %}
 
 {% docs task_owner_id %}
-Identificador único de la persona empleada por el banco en el año de referencia.
+Identificador de la versión del responsable vigente en la fecha de inicio de la campaña. Corresponde a dbt_scd_id en snap_task_owner.
 {% enddocs %}
 
 {% docs campaign_id %}

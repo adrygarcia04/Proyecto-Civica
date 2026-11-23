@@ -1,0 +1,18 @@
+version: 2
+
+snapshots:
+  - name: snap_task_owner
+    description: Histórico de los cambios de personal observados en los informes de Incivica Bank.
+    relation: ref('stg_snap_task_owner')
+    config:
+      database: "{{ env_var('DBT_02_SILVER') }}"
+      schema: snapshots
+      unique_key: mail
+      strategy: check
+      check_cols:
+        - full_name
+        - birthdate
+        - department
+        - job_title
+      updated_at: report_at
+      hard_deletes: new_record

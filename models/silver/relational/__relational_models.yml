@@ -91,8 +91,8 @@ models:
           - not_null
           - relationships:
               arguments:
-                to: ref('task_owner')
-                field: task_owner_id
+                to: ref('snap_task_owner')
+                field: dbt_scd_id
   - name: competitors_interactions
     description: Un registro diario por cuenta competidora y tipo de interacción pública.
     columns:
@@ -396,30 +396,6 @@ models:
           - unique
       - name: social_network
         description: "{{ doc('social_network') }}"
-  - name: task_owner
-    description: Un registro por persona y año.
-    columns:
-      - name: task_owner_id
-        description: "{{ doc('task_owner_id') }}"
-        data_tests:
-          - not_null
-          - unique
-      - name: full_name
-        description: "{{ doc('full_name') }}"
-      - name: dni
-        description: "{{ doc('dni') }}"
-      - name: birthdate
-        description: "{{ doc('birthdate') }}"
-      - name: mail
-        description: "{{ doc('mail') }}"
-      - name: department
-        description: "{{ doc('department') }}"
-      - name: job_title
-        description: "{{ doc('job_title') }}"
-      - name: year
-        description: "{{ doc('year') }}"
-        data_tests:
-          - not_null
   - name: traffic_type
     description: Un registro por combinación de canal y origen. Para competidores solo se conoce el canal.
     columns:

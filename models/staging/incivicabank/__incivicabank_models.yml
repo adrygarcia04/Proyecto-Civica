@@ -35,10 +35,8 @@ models:
         description: "{{ doc('department') }}"
       - name: job_title
         description: "{{ doc('job_title') }}"
-      - name: year
-        description: "{{ doc('year') }}"
-        data_tests:
-          - not_null
+      - name: report_date
+        description: Fecha de generación del informe del departamento de People.
   - name: stg_post
     description: Una fila por URL extraída de la lista de publicaciones de la creatividad.
     columns:
