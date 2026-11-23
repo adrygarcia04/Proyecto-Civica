@@ -16,3 +16,31 @@ snapshots:
         - job_title
       updated_at: report_at
       hard_deletes: new_record
+    columns:
+      - name: mail
+        description: '{{ doc(''mail'') }}'
+      - name: full_name
+        description: '{{ doc(''full_name'') }}'
+      - name: dni
+        description: '{{ doc(''dni'') }}'
+      - name: birthdate
+        description: '{{ doc(''birthdate'') }}'
+      - name: department
+        description: '{{ doc(''department'') }}'
+      - name: job_title
+        description: '{{ doc(''job_title'') }}'
+      - name: report_at
+        description: Fecha del informe seleccionado expresada como timestamp.
+      - name: dbt_scd_id
+        description: Clave de la versión histórica del responsable.
+        data_tests:
+          - not_null
+          - unique
+      - name: dbt_valid_from
+        description: Inicio de vigencia de la versión.
+      - name: dbt_valid_to
+        description: Fin de vigencia de la versión.
+      - name: dbt_updated_at
+        description: Marca temporal de actualización del snapshot.
+      - name: dbt_is_deleted
+        description: Indica si la versión representa una baja en el informe.

@@ -12,7 +12,7 @@ with own_daily as (
         b.bank_id,
         t.traffic_channel_id,
         count(*) as sessions_count
-    from {{ ref('fct_own_web_traffic') }} t
+    from {{ ref('fct_daily_own_web_traffic') }} t
     cross join (
         select bank_id
         from {{ ref('bank') }}
@@ -28,7 +28,7 @@ competitors_daily as (
         m.traffic_channel_id,
         sum(c.sessions_count) as sessions_count
     from {{ ref('competitors_traffic') }} c
-    left join {{ ref('int_traffic_channel_source') }} m
+    left join {{ ref('aux_traffic_channel_source') }} m
         on c.traffic_type_id = m.traffic_type_id
     group by c.record_date, c.bank_id, m.traffic_channel_id
 )

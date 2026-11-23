@@ -1,0 +1,129 @@
+models:
+  - name: aux_traffic_channel_source
+    description: Correspondencia entre la clave de tráfico de silver y las claves de canal y fuente de gold.
+    columns:
+      - name: traffic_type_id
+        description: '{{ doc(''traffic_type_id'') }}'
+        data_tests:
+          - not_null
+          - unique
+      - name: traffic_channel_id
+        description: Clave del canal de adquisición normalizado.
+      - name: traffic_channel
+        description: Canal de adquisición normalizado.
+      - name: traffic_source_id
+        description: Clave de la fuente tras agrupar las URLs de redes sociales.
+      - name: traffic_source
+        description: Fuente de adquisición. Las URLs de redes sociales reconocidas se agrupan bajo el nombre de la red.
+  - name: dim_source
+    description: Una fila por fuente de adquisición informada y agrupada.
+    columns:
+      - name: traffic_source_id
+        description: Clave de la fuente tras agrupar las URLs de redes sociales.
+        data_tests:
+          - not_null
+          - unique
+      - name: traffic_source
+        description: Fuente de adquisición. Las URLs de redes sociales reconocidas se agrupan bajo el nombre de la red.
+  - name: dim_traffic_channel
+    description: Una fila por canal de adquisición web.
+    columns:
+      - name: traffic_channel_id
+        description: Clave del canal de adquisición normalizado.
+        data_tests:
+          - not_null
+          - unique
+      - name: traffic_channel
+        description: Canal de adquisición normalizado.
+  - name: fct_daily_own_web_traffic
+    description: Una fila por sesión web de Incívica. Conserva la sesión aunque falte un producto único para su página y año.
+    columns:
+      - name: session_id
+        description: '{{ doc(''session_id'') }}'
+        data_tests:
+          - not_null
+          - unique
+      - name: activity_date
+        description: Fecha UTC de acceso a la página.
+        data_tests:
+          - not_null
+      - name: accessed_at_utc
+        description: '{{ doc(''accessed_at_utc'') }}'
+      - name: web_page_id
+        description: '{{ doc(''web_page_id'') }}'
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('web_page')
+                field: web_page_id
+      - name: url
+        description: '{{ doc(''web_page'') }}'
+      - name: product_id
+        description: '{{ doc(''product_id'') }}'
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('dim_product')
+                field: product_id
+      - name: traffic_channel_id
+        description: Clave del canal de adquisición normalizado.
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('dim_traffic_channel')
+                field: traffic_channel_id
+      - name: traffic_source_id
+        description: Clave de la fuente tras agrupar las URLs de redes sociales.
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('dim_source')
+                field: traffic_source_id
+      - name: device_id
+        description: '{{ doc(''device_id'') }}'
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('device')
+                field: device_id
+      - name: duration_sec
+        description: '{{ doc(''duration_sec'') }}'
+      - name: clicks
+        description: '{{ doc(''clicks'') }}'
+      - name: converted
+        description: Indica si la sesión convirtió. Un valor nulo en silver se interpreta como falso.
+        data_tests:
+          - not_null
+  - name: fct_daily_web_benchmark
+    description: Sesiones diarias de Incívica y de sus competidores por banco y canal.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - record_date
+              - bank_id
+              - traffic_channel_id
+    columns:
+      - name: record_date
+        description: '{{ doc(''record_date'') }}'
+        data_tests:
+          - not_null
+      - name: bank_id
+        description: '{{ doc(''bank_id'') }}'
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_bank')
+                field: bank_id
+      - name: traffic_channel_id
+        description: Clave del canal de adquisición normalizado.
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_traffic_channel')
+                field: traffic_channel_id
+      - name: sessions_count
+        description: Sesiones del banco en el canal y la fecha. Para Incívica se cuentan las sesiones y para los competidores se
+          suma la cifra reportada.

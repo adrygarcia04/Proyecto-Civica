@@ -30,7 +30,7 @@ select
     t.clicks,
     coalesce(t.converted, false) as converted
 from {{ ref('own_traffic') }} t
-left join {{ ref('int_traffic_channel_source') }} m
+left join {{ ref('aux_traffic_channel_source') }} m
     on t.traffic_type_id = m.traffic_type_id
 left join {{ ref('web_page') }} w
     on t.web_page_id = w.web_page_id

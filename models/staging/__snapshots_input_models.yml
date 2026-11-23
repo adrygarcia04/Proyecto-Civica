@@ -1,0 +1,25 @@
+version: 2
+models:
+  - name: stg_snap_task_owner
+    description: Empleados del informe seleccionado para el snapshot, con una fila por correo. Por defecto se selecciona el informe
+      más reciente.
+    columns:
+      - name: mail
+        description: '{{ doc(''mail'') }}'
+        data_tests:
+          - not_null
+          - unique
+      - name: full_name
+        description: '{{ doc(''full_name'') }}'
+      - name: dni
+        description: '{{ doc(''dni'') }}'
+      - name: birthdate
+        description: '{{ doc(''birthdate'') }}'
+      - name: department
+        description: '{{ doc(''department'') }}'
+      - name: job_title
+        description: '{{ doc(''job_title'') }}'
+      - name: report_at
+        description: Fecha del informe seleccionado expresada como timestamp.
+        data_tests:
+          - not_null

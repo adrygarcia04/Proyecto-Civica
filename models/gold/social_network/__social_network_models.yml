@@ -1,0 +1,100 @@
+version: 2
+models:
+  - name: fct_daily_own_followers_segmented
+    description: Seguidores de Incívica por fecha, red y combinación de edad, género y provincia.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - record_date
+              - social_network_id
+              - age_range_id
+              - gender_id
+              - province_id
+    columns:
+      - name: record_date
+        description: '{{ doc(''record_date'') }}'
+        data_tests:
+          - not_null
+      - name: social_network_id
+        description: '{{ doc(''social_network_id'') }}'
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_social_network')
+                field: social_network_id
+      - name: age_range_id
+        description: '{{ doc(''age_range_id'') }}'
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('age_range')
+                field: age_range_id
+      - name: gender_id
+        description: '{{ doc(''gender_id'') }}'
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('gender')
+                field: gender_id
+      - name: province_id
+        description: '{{ doc(''province_id'') }}'
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('province')
+                field: province_id
+      - name: followers_count
+        description: Seguidores del segmento y red en esa fecha.
+  - name: fct_daily_social_benchmark
+    description: Seguidores e interacciones diarias por banco y red social.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - record_date
+              - bank_id
+              - social_network_id
+    columns:
+      - name: record_date
+        description: '{{ doc(''record_date'') }}'
+        data_tests:
+          - not_null
+      - name: bank_id
+        description: '{{ doc(''bank_id'') }}'
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_bank')
+                field: bank_id
+      - name: social_network_id
+        description: '{{ doc(''social_network_id'') }}'
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_social_network')
+                field: social_network_id
+      - name: followers_count
+        description: Total de seguidores del banco en la red y fecha. Puede faltar si solo hay interacciones.
+      - name: likes
+        description: '{{ doc(''likes'') }}'
+        data_tests:
+          - not_null
+      - name: comments
+        description: '{{ doc(''comments'') }}'
+        data_tests:
+          - not_null
+      - name: shares
+        description: '{{ doc(''shares'') }}'
+        data_tests:
+          - not_null
+      - name: engagements
+        description: Suma de likes, comentarios y compartidos del día.
+        data_tests:
+          - not_null

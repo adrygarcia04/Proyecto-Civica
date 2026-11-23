@@ -9,6 +9,8 @@ models:
           - unique
       - name: ad_creative
         description: "{{ doc('ad_creative') }}"
+      - name: ad_creative_reference_year
+        description: Año de inicio de la campaña utilizado para identificar la creatividad.
       - name: ad_creative_type_id
         description: "{{ doc('ad_creative_type_id') }}"
         data_tests:

@@ -16,10 +16,15 @@ source2 as(
     where bank_name = 'Incivica Bank'
 ),
 
-source1_modified as(
+source1_modified as (
     select
         * exclude(province),
-        lower({{ remove_accents('province') }}) as province
+        case lower(trim({{ remove_accents('province') }}))
+            when 'guipuzcoa' then 'gipuzkoa'
+            when 'islas baleares' then 'illes balears'
+            when 'vizcaya' then 'bizkaia'
+            else lower(trim({{ remove_accents('province') }}))
+        end as province
     from source1
 ),
 
