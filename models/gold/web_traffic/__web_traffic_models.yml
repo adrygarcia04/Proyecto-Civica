@@ -94,6 +94,8 @@ models:
         description: Indica si la sesión convirtió. Un valor nulo en silver se interpreta como falso.
         data_tests:
           - not_null
+      - name: estimated_profit_euros
+        description: Beneficio anual medio por cliente del producto asociado a la página y al año de la sesión, en euros. Vale cero si la sesión no convirtió y queda nulo si convirtió pero falta un producto único o su beneficio.
   - name: fct_daily_web_benchmark
     description: Sesiones diarias de Incívica y de sus competidores por banco y canal.
     data_tests:
@@ -127,11 +129,3 @@ models:
       - name: sessions_count
         description: Sesiones del banco en el canal y la fecha. Para Incívica se cuentan las sesiones y para los competidores se
           suma la cifra reportada.
-  - name: dim_device
-    description: Una fila por tipo de dispositivo utilizado en las sesiones web.
-    columns:
-      - name: device_id
-        description: "{{ doc('device_id') }}"
-        data_tests: [not_null, unique]
-      - name: device
-        description: "{{ doc('device') }}"
