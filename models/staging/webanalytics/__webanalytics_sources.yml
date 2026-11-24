@@ -42,7 +42,7 @@ sources:
       - name: competitors_traffic
         description: Tráfico diario en los dominios web de competidores por tipo de tráfico.
         columns:
-          - name: domain
+          - name: web_domain
             description: "{{ doc('web_domain') }}"
             data_tests:
               - not_null
