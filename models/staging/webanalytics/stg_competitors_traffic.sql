@@ -6,7 +6,7 @@ with source as (
 
 renamed as (
     select
-        lower({{ remove_accents('domain') }}) as web_domain,
+        lower({{ remove_accents('web_domain') }}) as web_domain,
         to_date(record_day, 'YYYY-MM-DD') as record_date,
         traffic_type,
         sessions as sessions_count,
