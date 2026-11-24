@@ -1,0 +1,47 @@
+unit_tests:
+  - name: test_traffic_channel_source_clasifica_por_dominio
+    model: aux_traffic_channel_source
+    given:
+      - input: ref('traffic_type')
+        rows:
+          - {traffic_type_id: ig_a, traffic_type: Social, source: 'https://www.instagram.com/abc'}
+          - {traffic_type_id: ig_b, traffic_type: SOCIAL, source: 'https://instagram.com/xyz'}
+          - {traffic_type_id: externo, traffic_type: Referral, source: 'https://ejemplo.com/instagram'}
+          - {traffic_type_id: competidor, traffic_type: Social, source: null}
+    expect:
+      rows:
+        - {traffic_type_id: ig_a, traffic_channel: social, traffic_source: Instagram}
+        - {traffic_type_id: ig_b, traffic_channel: social, traffic_source: Instagram}
+        - {traffic_type_id: externo, traffic_channel: referral, traffic_source: 'https://ejemplo.com/instagram'}
+        - {traffic_type_id: competidor, traffic_channel: social, traffic_source: null}
+
+  - name: test_daily_web_benchmark_compara_sesiones_por_canal
+    model: fct_daily_web_benchmark
+    overrides:
+      macros:
+        is_incremental: false
+    given:
+      - input: ref('fct_daily_own_web_traffic')
+        rows:
+          - {session_id: 101, activity_date: '2025-03-10', traffic_channel_id: social, traffic_source_id: instagram}
+          - {session_id: 102, activity_date: '2025-03-10', traffic_channel_id: social, traffic_source_id: facebook}
+      - input: ref('bank')
+        rows:
+          - {bank_id: propio, bank_name: 'Incivica Bank'}
+          - {bank_id: rival, bank_name: 'Banco rival'}
+      - input: ref('competitors_traffic')
+        rows:
+          - {record_date: '2025-03-10', bank_id: rival, traffic_type_id: social_sin_fuente, sessions_count: 17}
+      - input: ref('aux_traffic_channel_source')
+        format: sql
+        rows: |
+          select
+              'social_sin_fuente' as traffic_type_id,
+              'social' as traffic_channel_id,
+              'social' as traffic_channel,
+              cast(null as varchar) as traffic_source_id,
+              cast(null as varchar) as traffic_source
+    expect:
+      rows:
+        - {record_date: '2025-03-10', bank_id: propio, traffic_channel_id: social, sessions_count: 2}
+        - {record_date: '2025-03-10', bank_id: rival, traffic_channel_id: social, sessions_count: 17}

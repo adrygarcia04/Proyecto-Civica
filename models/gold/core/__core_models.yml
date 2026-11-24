@@ -1,0 +1,211 @@
+models:
+  - name: dim_ad_creative
+    description: Una fila por creatividad publicitaria.
+    columns:
+      - name: ad_creative_id
+        description: '{{ doc(''ad_creative_id'') }}'
+        data_tests:
+          - not_null
+          - unique
+      - name: ad_creative
+        description: '{{ doc(''ad_creative'') }}'
+      - name: ad_creative_cost_euros
+        description: '{{ doc(''ad_creative_cost_euros'') }}'
+  - name: dim_ad_creative_type
+    description: Una fila por formato de creatividad.
+    columns:
+      - name: ad_creative_type_id
+        description: '{{ doc(''ad_creative_type_id'') }}'
+        data_tests:
+          - not_null
+          - unique
+      - name: ad_creative_type
+        description: '{{ doc(''ad_creative_type'') }}'
+  - name: dim_bank
+    description: Una fila por banco del catálogo.
+    columns:
+      - name: bank_id
+        description: '{{ doc(''bank_id'') }}'
+        data_tests:
+          - not_null
+          - unique
+      - name: bank_name
+        description: '{{ doc(''bank_name'') }}'
+      - name: short_name
+        description: '{{ doc(''short_name'') }}'
+  - name: dim_campaign
+    description: Una fila por campaña. El presupuesto corresponde a toda la campaña.
+    columns:
+      - name: campaign_id
+        description: '{{ doc(''campaign_id'') }}'
+        data_tests:
+          - not_null
+          - unique
+      - name: description
+        description: '{{ doc(''description'') }}'
+      - name: begin_date
+        description: '{{ doc(''begin_date'') }}'
+      - name: end_date
+        description: '{{ doc(''end_date'') }}'
+      - name: budget_euros
+        description: '{{ doc(''budget_euros'') }}'
+  - name: dim_dates
+    description: Calendario con una fila por día del intervalo generado.
+    columns:
+      - name: date_day
+        description: Fecha natural.
+        data_tests:
+          - not_null
+          - unique
+      - name: date_id
+        description: Fecha expresada como entero AAAAMMDD.
+        data_tests:
+          - not_null
+          - unique
+      - name: year
+        description: Año natural.
+      - name: quarter
+        description: Trimestre natural.
+      - name: month
+        description: Número del mes.
+      - name: month_name
+        description: Nombre abreviado del mes.
+      - name: iso_week
+        description: Número de semana ISO.
+      - name: day_of_week
+        description: Día de la semana con domingo igual a cero.
+      - name: day_name
+        description: Nombre abreviado del día.
+      - name: is_weekend
+        description: Indica si es sábado o domingo.
+  - name: dim_product
+    description: Una fila por versión anual de producto. Un nombre puede aparecer en varios años.
+    columns:
+      - name: product_id
+        description: '{{ doc(''product_id'') }}'
+        data_tests:
+          - not_null
+          - unique
+      - name: product_name
+        description: '{{ doc(''product_name'') }}'
+  - name: dim_social_network
+    description: Una fila por red social, con el nombre de presentación para el dashboard.
+    columns:
+      - name: social_network_id
+        description: '{{ doc(''social_network_id'') }}'
+        data_tests:
+          - not_null
+          - unique
+      - name: social_network
+        description: '{{ doc(''social_network'') }}'
+  - name: dim_task_owner
+    description: Una fila por versión histórica de un responsable. El correo puede repetirse entre versiones.
+    columns:
+      - name: dbt_scd_id
+        description: Clave de la versión histórica del responsable.
+        data_tests:
+          - not_null
+          - unique
+      - name: full_name
+        description: '{{ doc(''full_name'') }}'
+      - name: mail
+        description: '{{ doc(''mail'') }}'
+      - name: department
+        description: '{{ doc(''department'') }}'
+      - name: job_title
+        description: '{{ doc(''job_title'') }}'
+  - name: fct_post_daily_performance
+    description: Una fila por post y fecha de informe con métricas sociales y tráfico atribuido por URL y día.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - post_id
+              - activity_date
+    columns:
+      - name: post_id
+        description: '{{ doc(''post_id'') }}'
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('post')
+                field: post_id
+      - name: url
+        description: '{{ doc(''post_url'') }}'
+      - name: activity_date
+        description: Fecha de actividad.
+        data_tests:
+          - not_null
+      - name: social_network_id
+        description: '{{ doc(''social_network_id'') }}'
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('dim_social_network')
+                field: social_network_id
+      - name: product_id
+        description: '{{ doc(''product_id'') }}'
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('dim_product')
+                field: product_id
+      - name: campaign_id
+        description: '{{ doc(''campaign_id'') }}'
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('dim_campaign')
+                field: campaign_id
+      - name: likes
+        description: '{{ doc(''likes'') }}'
+        data_tests:
+          - not_null
+      - name: comments
+        description: '{{ doc(''comments'') }}'
+        data_tests:
+          - not_null
+      - name: shares
+        description: '{{ doc(''shares'') }}'
+        data_tests:
+          - not_null
+      - name: engagements
+        description: Suma de likes, comentarios y compartidos del día.
+        data_tests:
+          - not_null
+      - name: impressions
+        description: '{{ doc(''impressions'') }}'
+      - name: reach
+        description: '{{ doc(''reach'') }}'
+      - name: sessions
+        description: Sesiones atribuidas al post en el día de actividad.
+        data_tests:
+          - not_null
+      - name: conversions
+        description: Sesiones atribuidas al post que convirtieron ese día.
+        data_tests:
+          - not_null
+      - name: estimated_profit_euros
+        description: Conversiones atribuidas multiplicadas por el beneficio anual medio por cliente del producto, en euros.
+      - name: task_owner_id
+        description: '{{ doc(''task_owner_id'') }}'
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('dim_task_owner')
+                field: dbt_scd_id
+      - name: ad_creative_id
+        description: '{{ doc(''ad_creative_id'') }}'
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('dim_ad_creative')
+                field: ad_creative_id
+      - name: ad_creative_type_id
+        description: '{{ doc(''ad_creative_type_id'') }}'
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('dim_ad_creative_type')
+                field: ad_creative_type_id

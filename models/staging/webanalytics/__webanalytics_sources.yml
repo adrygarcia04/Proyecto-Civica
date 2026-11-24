@@ -1,0 +1,60 @@
+sources:
+  - name: webanalytics
+    description: Herramienta de analítica web.
+    database: '{{ env_var(''DBT_01_BRONZE'') }}'
+    schema: webanalytics
+    tables:
+      - name: own_traffic
+        description: Tráfico en la web de Incivica Bank por sesión.
+        columns:
+          - name: id
+            description: "{{ doc('session_id') }}"
+            data_tests:
+              - not_null
+          - name: web_page
+            description: "{{ doc('web_page') }}"
+            data_tests:
+              - not_null
+          - name: accessed_at
+            description: "{{ doc('accessed_at_utc') }}"
+            data_tests:
+              - not_null
+          - name: traffic_type
+            description: "{{ doc('traffic_type') }}"
+            data_tests:
+              - not_null
+          - name: source
+            description: "{{ doc('source') }}"
+            data_tests:
+              - not_null
+          - name: device
+            description: "{{ doc('device') }}"
+            data_tests:
+              - not_null
+          - name: duration
+            description: "{{ doc('duration_sec') }}"
+          - name: clicks
+            description: "{{ doc('clicks') }}"
+          - name: converted
+            description: "{{ doc('converted') }}"
+          - name: _loaded_at
+            description: "{{ doc('raw_loaded_at') }}"
+      - name: competitors_traffic
+        description: Tráfico diario en los dominios web de competidores por tipo de tráfico.
+        columns:
+          - name: domain
+            description: "{{ doc('web_domain') }}"
+            data_tests:
+              - not_null
+          - name: record_day
+            description: Día del registro en formato VARCHAR (YYYY-MM-DD).
+            data_tests:
+              - not_null
+          - name: traffic_type
+            description: "{{ doc('traffic_type') }}"
+            data_tests:
+              - not_null
+          - name: sessions
+            description: "{{ doc('sessions_count') }}"
+          - name: _loaded_at
+            description: "{{ doc('raw_loaded_at') }}"

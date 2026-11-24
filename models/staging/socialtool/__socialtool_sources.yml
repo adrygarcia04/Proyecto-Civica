@@ -1,0 +1,85 @@
+sources:
+  - name: socialtool
+    description: Herramienta de analítica de redes sociales.
+    database: '{{ env_var(''DBT_01_BRONZE'') }}'
+    schema: socialtool
+    tables:
+      - name: own_interactions
+        description: Evolución diaria de las interacciones de los posts de Incivica Bank en las distintas redes
+          sociales.
+        columns:
+          - name: post_date
+            description: Fecha de publicación en formato VARCHAR (YYYYMMDD).
+            data_tests:
+              - not_null
+          - name: social_network
+            description: "{{ doc('social_network') }}"
+            data_tests:
+              - not_null
+          - name: url
+            description: "{{ doc('post_url') }}"
+            data_tests:
+              - not_null
+          - name: likes
+            description: "{{ doc('likes') }}"
+          - name: comments
+            description: "{{ doc('comments') }}"
+          - name: shares
+            description: "{{ doc('shares') }}"
+          - name: impressions
+            description: "{{ doc('impressions') }}"
+          - name: reach
+            description: "{{ doc('reach') }}"
+          - name: _source_file_name
+            description: "{{ doc('source_file_name') }}"
+            data_tests:
+              - not_null
+      - name: own_followers
+        description: Evolución diaria de seguidores de las cuentas de Incivica Bank en las distintas redes sociales
+          segmentados por provincia, edad y género.
+        columns:
+          - name: date
+            description: Fecha del dato en formato VARCHAR (YYYYMMDD).
+            data_tests:
+              - not_null
+          - name: province
+            description: "{{ doc('province') }}"
+            data_tests:
+              - not_null
+          - name: age
+            description: "{{ doc('age_range') }}"
+            data_tests:
+              - not_null
+          - name: gender
+            description: "{{ doc('gender') }}"
+            data_tests:
+              - not_null
+          - name: followers
+            description: "{{ doc('followers_count') }}"
+          - name: _source_file_name
+            description: "{{ doc('source_file_name') }}"
+            data_tests:
+              - not_null
+      - name: competitors
+        description: Evolución diaria de las métricas públicas de las redes sociales de los competidores.
+        columns:
+          - name: account
+            description: "{{ doc('account_name') }}"
+            data_tests:
+              - not_null
+          - name: date
+            description: Fecha de las métricas en formato YYYYMMDD.
+            data_tests:
+              - not_null
+          - name: followers
+            description: Número total de seguidores de la cuenta en la fecha indicada.
+          - name: daily_added_likes
+            description: "{{ doc('likes') }}"
+          - name: daily_added_comments
+            description: "{{ doc('comments') }}"
+          - name: daily_added_shares
+            description: "{{ doc('shares') }}"
+          - name: _source_file_name
+            description: "{{ doc('source_file_name') }}"
+            data_tests:
+              - not_null
