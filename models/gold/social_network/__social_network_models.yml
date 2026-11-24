@@ -30,7 +30,7 @@ models:
           - not_null
           - relationships:
               arguments:
-                to: ref('age_range')
+                to: ref('dim_age_range')
                 field: age_range_id
       - name: gender_id
         description: '{{ doc(''gender_id'') }}'
@@ -38,7 +38,7 @@ models:
           - not_null
           - relationships:
               arguments:
-                to: ref('gender')
+                to: ref('dim_gender')
                 field: gender_id
       - name: province_id
         description: '{{ doc(''province_id'') }}'
@@ -46,7 +46,7 @@ models:
           - not_null
           - relationships:
               arguments:
-                to: ref('province')
+                to: ref('dim_geo')
                 field: province_id
       - name: followers_count
         description: Seguidores del segmento y red en esa fecha.
@@ -98,3 +98,34 @@ models:
         description: Suma de likes, comentarios y compartidos del día.
         data_tests:
           - not_null
+  - name: dim_geo
+    description: Una fila por provincia, con su comunidad o ciudad autónoma y su país.
+    columns:
+      - name: province_id
+        description: "{{ doc('province_id') }}"
+        data_tests: [not_null, unique]
+      - name: province
+        description: "{{ doc('province_label') }}"
+      - name: region
+        description: "{{ doc('region') }}"
+      - name: country_name_es
+        description: "{{ doc('country_name_es') }}"
+      - name: country_name_en
+        description: "{{ doc('country_name_en') }}"
+
+  - name: dim_gender
+    description: Una fila por categoría de género utilizada en la segmentación de seguidores.
+    columns:
+      - name: gender_id
+        description: "{{ doc('gender_id') }}"
+        data_tests: [not_null, unique]
+      - name: gender
+        description: "{{ doc('gender') }}"
+  - name: dim_age_range
+    description: Una fila por rango de edad utilizado en la segmentación de seguidores.
+    columns:
+      - name: age_range_id
+        description: "{{ doc('age_range_id') }}"
+        data_tests: [not_null, unique]
+      - name: age_range
+        description: "{{ doc('age_range') }}"
