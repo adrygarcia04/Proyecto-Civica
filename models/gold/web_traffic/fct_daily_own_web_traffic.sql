@@ -15,6 +15,23 @@ with product_by_page_year as (
     from {{ ref('products') }}
     group by web_page_id, year
     having count(distinct product_id) = 1
+),
+
+own_traffic as(
+    select
+        session_id,
+        accessed_at_utc,
+        web_page_id,
+        device_id,
+        duration_sec,
+        clicks,
+        traffic_type_id,
+        converted,
+        loaded_at_utc
+    from {{ ref('own_traffic') }} s
+    {% if is_incremental() %}
+    where s.loaded_at_utc >= {{ carga_desde('loaded_at_utc') }}
+    {% endif %}
 )
 
 select
@@ -29,12 +46,13 @@ select
     t.device_id,
     t.duration_sec,
     t.clicks,
+    t.loaded_at_utc,
     coalesce(t.converted, false) as converted,
     case
         when coalesce(t.converted, false) then p.client_annual_avg_profit
         else 0
     end as estimated_profit_euros
-from {{ ref('own_traffic') }} t
+from own_traffic t
 left join {{ ref('aux_traffic_channel_source') }} m
     on t.traffic_type_id = m.traffic_type_id
 left join {{ ref('web_page') }} w

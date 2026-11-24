@@ -4,11 +4,23 @@
         incremental_strategy='merge',
         unique_key=['record_date', 'bank_id', 'social_network_id']
     )
-}} -- ¿Procede una incremental?
+}}
 
 with accounts as (
     select social_account_id, bank_id, social_network_id
     from {{ ref('social_account') }}
+),
+
+followers as(
+    select
+        record_date,
+        followers_count,
+        social_account_id,
+        loaded_at_utc
+    from {{ ref('followers') }} f
+    {% if is_incremental() %}
+    where f.loaded_at_utc >= {{ carga_desde('loaded_at_utc') }}
+    {% endif %}
 ),
 
 followers_daily as (
@@ -16,11 +28,38 @@ followers_daily as (
         f.record_date,
         a.bank_id,
         a.social_network_id,
-        sum(f.followers_count) as followers_count
-    from {{ ref('followers') }} f
+        sum(f.followers_count) as followers_count,
+        max(f.loaded_at_utc) as loaded_at_utc
+    from followers f
     inner join accounts a
         on f.social_account_id = a.social_account_id
     group by f.record_date, a.bank_id, a.social_network_id
+),
+
+own_interactions as(
+    select
+        post_id,
+        report_date,
+        interaction_type_id,
+        interaction_count,
+        loaded_at_utc
+    from {{ ref('own_interactions') }} i
+    {% if is_incremental() %}
+    where i.loaded_at_utc >= {{ carga_desde('loaded_at_utc') }}
+    {% endif %}
+),
+
+competitors_interactions as(
+    select
+        record_date,
+        social_account_id,
+        interaction_type_id,
+        interaction_count,
+        loaded_at_utc
+    from {{ ref('competitors_interactions') }} c
+    {% if is_incremental() %}
+    where c.loaded_at_utc >= {{ carga_desde('loaded_at_utc') }}
+    {% endif %}
 ),
 
 interactions as (
@@ -28,8 +67,9 @@ interactions as (
         i.report_date as record_date,
         p.social_account_id,
         i.interaction_type_id,
-        i.interaction_count
-    from {{ ref('own_interactions') }} i
+        i.interaction_count,
+        i.loaded_at_utc
+    from own_interactions i
     inner join {{ ref('post') }} p
         on i.post_id = p.post_id
 
@@ -39,8 +79,9 @@ interactions as (
         record_date,
         social_account_id,
         interaction_type_id,
-        interaction_count
-    from {{ ref('competitors_interactions') }}
+        interaction_count,
+        loaded_at_utc
+    from competitors_interactions
 ),
 
 interactions_daily as (
@@ -50,7 +91,8 @@ interactions_daily as (
         a.social_network_id,
         sum(case when t.interaction_type = 'likes' then i.interaction_count else 0 end) as likes,
         sum(case when t.interaction_type = 'comments' then i.interaction_count else 0 end) as comments,
-        sum(case when t.interaction_type = 'shares' then i.interaction_count else 0 end) as shares
+        sum(case when t.interaction_type = 'shares' then i.interaction_count else 0 end) as shares,
+        max(i.loaded_at_utc) as loaded_at_utc
     from interactions i
     inner join accounts a
         on i.social_account_id = a.social_account_id
@@ -67,7 +109,11 @@ daily_metrics as (
         f.followers_count,
         coalesce(i.likes, 0) as likes,
         coalesce(i.comments, 0) as comments,
-        coalesce(i.shares, 0) as shares
+        coalesce(i.shares, 0) as shares,
+        greatest(
+            coalesce(f.loaded_at_utc, '1900-01-01'::timestamp_ntz),
+            coalesce(i.loaded_at_utc, '1900-01-01'::timestamp_ntz)
+        ) as loaded_at_utc
     from followers_daily f
     full outer join interactions_daily i
         on f.record_date = i.record_date
@@ -83,5 +129,6 @@ select
     likes,
     comments,
     shares,
-    likes + comments + shares as engagements
+    likes + comments + shares as engagements,
+    loaded_at_utc
 from daily_metrics

@@ -17,7 +17,7 @@ select
     birthdate,
     department,
     job_title,
-    cast(report_date as timestamp_ntz) as report_at
+    to_timestamp_ntz(convert_timezone('UTC', report_date)) as report_at
 from source
 where report_date = (
     {% if var('people_report_date', none) is not none %}
