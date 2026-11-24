@@ -4,13 +4,14 @@
     incremental_strategy='merge',
     unique_key='session_id'
   )
-}} -- Aquí quizás renta una vista directamente
+}}
 
 with product_by_page_year as (
     select
         web_page_id,
         year,
-        min(product_id) as product_id
+        min(product_id) as product_id,
+        min(client_annual_avg_profit) as client_annual_avg_profit
     from {{ ref('products') }}
     group by web_page_id, year
     having count(distinct product_id) = 1
@@ -28,7 +29,11 @@ select
     t.device_id,
     t.duration_sec,
     t.clicks,
-    coalesce(t.converted, false) as converted
+    coalesce(t.converted, false) as converted,
+    case
+        when coalesce(t.converted, false) then p.client_annual_avg_profit
+        else 0
+    end as estimated_profit_euros
 from {{ ref('own_traffic') }} t
 left join {{ ref('aux_traffic_channel_source') }} m
     on t.traffic_type_id = m.traffic_type_id
