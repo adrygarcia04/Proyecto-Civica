@@ -4,7 +4,7 @@
         incremental_strategy='merge',
         unique_key=['record_date', 'bank_id', 'traffic_channel_id']
     )
-}} -- ¿Procede una incremental?
+}}
 
 with own_daily as (
     select

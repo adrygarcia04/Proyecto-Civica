@@ -4,7 +4,7 @@
     incremental_strategy='merge',
     unique_key=['record_date', 'social_network_id', 'age_range_id', 'gender_id', 'province_id']
   )
-}} -- Aquí quizás renta una vista sobre followers directamente
+}}
 
 select
     f.record_date,

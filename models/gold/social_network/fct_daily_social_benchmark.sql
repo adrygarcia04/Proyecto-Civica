@@ -4,7 +4,7 @@
         incremental_strategy='merge',
         unique_key=['record_date', 'bank_id', 'social_network_id']
     )
-}} -- ¿Procede una incremental?
+}}
 
 with accounts as (
     select social_account_id, bank_id, social_network_id
