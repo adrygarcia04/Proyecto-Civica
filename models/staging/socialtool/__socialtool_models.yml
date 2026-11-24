@@ -11,6 +11,10 @@ models:
           config:
             severity: warn
     columns:
+      - name: loaded_at_utc
+        description: "{{ doc('loaded_at_utc') }}"
+        data_tests:
+          - not_null
       - name: account_name
         description: "{{ doc('account_name') }}"
       - name: record_date
@@ -42,6 +46,10 @@ models:
           config:
             severity: warn
     columns:
+      - name: loaded_at_utc
+        description: "{{ doc('loaded_at_utc') }}"
+        data_tests:
+          - not_null
       - name: record_date
         description: "{{ doc('record_date') }}"
       - name: province
@@ -68,6 +76,10 @@ models:
           config:
             severity: warn
     columns:
+      - name: loaded_at_utc
+        description: "{{ doc('loaded_at_utc') }}"
+        data_tests:
+          - not_null
       - name: post_date
         description: "{{ doc('post_date') }}"
       - name: social_network

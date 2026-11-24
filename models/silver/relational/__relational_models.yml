@@ -9,8 +9,6 @@ models:
           - unique
       - name: ad_creative
         description: "{{ doc('ad_creative') }}"
-      - name: ad_creative_reference_year
-        description: Año de inicio de la campaña utilizado para identificar la creatividad.
       - name: ad_creative_type_id
         description: "{{ doc('ad_creative_type_id') }}"
         data_tests:
@@ -98,6 +96,10 @@ models:
   - name: competitors_interactions
     description: Un registro diario por cuenta competidora y tipo de interacción pública.
     columns:
+      - name: loaded_at_utc
+        description: Instante de ingestión UTC de la versión seleccionada.
+        data_tests:
+          - not_null
       - name: competitors_interactions_id
         description: Identificador de la medición por cuenta competidora, día y tipo de interacción.
         data_tests:
@@ -129,6 +131,10 @@ models:
     description: Un registro por banco competidor, fecha y canal de tráfico. Se conserva el recuento de la carga más
       reciente.
     columns:
+      - name: loaded_at_utc
+        description: "{{ doc('loaded_at_utc') }}"
+        data_tests:
+          - not_null
       - name: competitors_traffic_id
         description: Identificador del recuento de sesiones por banco, fecha y canal.
         data_tests:
@@ -169,6 +175,14 @@ models:
   - name: followers
     description: Un registro de los seguidores de cada cuenta social por fecha. El banco propio tiene los datos segmentados demográficamente, mientras que los competidores aportan el total de su cuenta.
     columns:
+      - name: loaded_at_utc
+        description: Instante de ingestión UTC de la versión seleccionada.
+        data_tests:
+          - not_null
+      - name: source_system
+        description: Rama de SocialTool usada para el control de carga independiente.
+        data_tests:
+          - not_null
       - name: followers_id
         description: "{{ doc('followers_id') }}"
         data_tests:
@@ -227,6 +241,10 @@ models:
   - name: own_interactions
     description: Un registro por publicación propia, fecha de informe y tipo de métrica.
     columns:
+      - name: loaded_at_utc
+        description: Instante de ingestión UTC de la versión seleccionada.
+        data_tests:
+          - not_null
       - name: own_interactions_id
         description: Identificador de la medición por publicación, fecha del informe y tipo de interacción.
         data_tests:
@@ -257,6 +275,10 @@ models:
   - name: own_traffic
     description: Un registro por sesión propia. Si una sesión aparece en varias cargas se conserva el registro de carga más reciente.
     columns:
+      - name: loaded_at_utc
+        description: "{{ doc('loaded_at_utc') }}"
+        data_tests:
+          - not_null
       - name: session_id
         description: "{{ doc('session_id') }}"
         data_tests:

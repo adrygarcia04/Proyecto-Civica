@@ -18,7 +18,10 @@ with source as(
         clicks,
         converted,
         loaded_at_utc
-    from {{ ref('stg_own_traffic') }}
+    from {{ ref('stg_own_traffic') }} s
+    {% if is_incremental() %}
+    where s.loaded_at_utc >= {{ carga_desde('loaded_at_utc') }}
+    {% endif %}
 ),
 
 modified as(
@@ -46,9 +49,9 @@ sur_key as(
 
 deduplicated as(
     select
-        * exclude(loaded_at_utc)
+        *
     from sur_key
-    qualify row_number() over (partition by session_id order by loaded_at_utc desc) = 1
+    qualify row_number() over (partition by session_id order by loaded_at_utc desc nulls last, web_page_id, traffic_type_id, device_id, accessed_at_utc, duration_sec, clicks, converted) = 1
 )
 
 select * from deduplicated

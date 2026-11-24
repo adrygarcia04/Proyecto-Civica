@@ -48,8 +48,8 @@ enriched as (
     from source1_modified a
     left join source2_modified b
         on a.task_owner = b.full_name
-        and a.begin_date >= b.dbt_valid_from
-        and (a.begin_date < b.dbt_valid_to or b.dbt_valid_to is null)
+        and a.begin_date >= to_date(b.dbt_valid_from)
+        and (a.begin_date < to_date(b.dbt_valid_to) or b.dbt_valid_to is null)
 ),
 
 sur_key as (

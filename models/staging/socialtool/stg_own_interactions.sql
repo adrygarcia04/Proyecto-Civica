@@ -6,6 +6,7 @@ with source as (
 
 renamed as (
     select
+        to_timestamp_ntz(convert_timezone('UTC', _loaded_at)) as loaded_at_utc,
         to_timestamp_ntz(post_date, 'YYYYMMDD') as post_date,
         lower(social_network) as social_network,
         lower({{ remove_accents('url') }}) as url,
