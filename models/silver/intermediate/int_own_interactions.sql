@@ -6,6 +6,7 @@ with source as(
         shares,
         impressions,
         reach,
+        loaded_at_utc,
         report_date
     from {{ ref('stg_own_interactions') }}
 ),

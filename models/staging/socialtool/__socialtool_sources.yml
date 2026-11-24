@@ -8,6 +8,10 @@ sources:
         description: Evolución diaria de las interacciones de los posts de Incivica Bank en las distintas redes
           sociales.
         columns:
+          - name: _loaded_at
+            description: Instante de ingestión persistido por COPY INTO.
+            data_tests:
+              - not_null
           - name: post_date
             description: Fecha de publicación en formato VARCHAR (YYYYMMDD).
             data_tests:
@@ -38,6 +42,10 @@ sources:
         description: Evolución diaria de seguidores de las cuentas de Incivica Bank en las distintas redes sociales
           segmentados por provincia, edad y género.
         columns:
+          - name: _loaded_at
+            description: Instante de ingestión persistido por COPY INTO.
+            data_tests:
+              - not_null
           - name: date
             description: Fecha del dato en formato VARCHAR (YYYYMMDD).
             data_tests:
@@ -63,6 +71,10 @@ sources:
       - name: competitors
         description: Evolución diaria de las métricas públicas de las redes sociales de los competidores.
         columns:
+          - name: _loaded_at
+            description: Instante de ingestión persistido por COPY INTO.
+            data_tests:
+              - not_null
           - name: account
             description: "{{ doc('account_name') }}"
             data_tests:

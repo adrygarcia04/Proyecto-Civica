@@ -13,7 +13,10 @@ with source1 as(
         traffic_type,
         sessions_count,
         loaded_at_utc
-    from {{ ref('stg_competitors_traffic') }}
+    from {{ ref('stg_competitors_traffic') }} s
+    {% if is_incremental() %}
+    where s.loaded_at_utc >= {{ carga_desde('loaded_at_utc') }}
+    {% endif %}
 ),
 
 source2 as(
@@ -53,9 +56,9 @@ sur_key as(
 
 deduplicated as(
     select
-        * exclude(loaded_at_utc)
+        *
     from sur_key
-    qualify row_number() over (partition by competitors_traffic_id order by loaded_at_utc desc) = 1
+    qualify row_number() over (partition by competitors_traffic_id order by loaded_at_utc desc nulls last, sessions_count desc nulls last) = 1
 )
 
 select * from deduplicated

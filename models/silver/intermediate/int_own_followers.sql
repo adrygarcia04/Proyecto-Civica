@@ -1,5 +1,6 @@
 with source1 as(
     select
+        loaded_at_utc,
         record_date,
         province,
         age_range,
@@ -40,6 +41,7 @@ enriched as(
 sur_key as(
     select
         {{ dbt_utils.generate_surrogate_key(['record_date', 'age_range', 'gender', 'province', 'account_name', 'social_network']) }} as followers_id,
+        loaded_at_utc,
         record_date,
         {{ dbt_utils.generate_surrogate_key(['age_range']) }} as age_range_id,
         {{ dbt_utils.generate_surrogate_key(['gender']) }} as gender_id,
@@ -47,13 +49,6 @@ sur_key as(
         {{ dbt_utils.generate_surrogate_key(['account_name', 'social_network']) }} as social_account_id,
         followers_count
     from enriched
-),
-
-deduplicated as(
-    select
-        *
-    from sur_key
-    qualify row_number() over (partition by followers_id order by followers_count asc) = 1
 )
 
-select * from deduplicated
+select * from sur_key

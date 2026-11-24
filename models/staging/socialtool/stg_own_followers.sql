@@ -6,6 +6,7 @@ with source as (
 
 renamed as (
     select
+        to_timestamp_ntz(convert_timezone('UTC', _loaded_at)) as loaded_at_utc,
         to_date(date, 'YYYYMMDD') as record_date,
         province,
         age as age_range,

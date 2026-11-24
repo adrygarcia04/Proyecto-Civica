@@ -2,6 +2,8 @@ models:
   - name: int_competitors_followers
     description: Prepara el total diario de seguidores por cuenta competidora. Las tres claves demográficas quedan nulas porque el origen solo aporta totales.
     columns:
+      - name: loaded_at_utc
+        description: "{{ doc('loaded_at_utc') }}"
       - name: followers_id
         description: "{{ doc('followers_id') }}"
       - name: record_date
@@ -19,6 +21,8 @@ models:
   - name: int_own_followers
     description: Prepara las observaciones de seguidores propios por fecha, cuenta y segmento demográfico.
     columns:
+      - name: loaded_at_utc
+        description: "{{ doc('loaded_at_utc') }}"
       - name: followers_id
         description: "{{ doc('followers_id') }}"
       - name: record_date
@@ -36,6 +40,8 @@ models:
   - name: int_own_interactions
     description: Transforma las columnas de métricas en filas por URL, fecha de informe y tipo de métrica informado.
     columns:
+      - name: loaded_at_utc
+        description: "{{ doc('loaded_at_utc') }}"
       - name: url
         description: "{{ doc('post_url') }}"
       - name: report_date
